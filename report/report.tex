@@ -91,27 +91,9 @@ Consider the following DFAs $\mathcal{A}_1$ and $\mathcal{A}_2$.
 
 \begin{figure}[ht]
   \centering
-  % DFA A1: 4 states, state 3 accept, state 4 trap
-  \begin{tikzpicture}[shorten >=1pt, node distance=2cm, auto]
-    \node[state, initial] (1) {1};
-    \node[state, right of=1] (2) {2};
-    \node[state, accepting, right of=2] (3) {3};
-    \node[state, right of=3] (4) {4};
-    \path[->] (1) edge node {a} (2) (1) edge node {b} (4)
-              (2) edge[loop above] node {a} (2) (2) edge node {b} (3)
-              (3) edge[bend left] node {a} (2) (3) edge[bend right] node {b} (2)
-              (4) edge[loop above] node {a,b} (4);
-  \end{tikzpicture}
-  \hspace{2cm}
-  % DFA A2: 3 states, state 3 accept
-  \begin{tikzpicture}[shorten >=1pt, node distance=2cm, auto]
-    \node[state, initial] (1) {1};
-    \node[state, right of=1] (2) {2};
-    \node[state, accepting, right of=2] (3) {3};
-    \path[->] (1) edge node {a} (2) (1) edge[loop above] node {b} (1)
-              (2) edge node {a} (3) (2) edge[bend left] node {b} (1)
-              (3) edge[loop above] node {a} (3) (3) edge[bend left] node {b} (1);
-  \end{tikzpicture}
+  \includegraphics[width=0.45\textwidth]{A1.png}
+  \hfill
+  \includegraphics[width=0.45\textwidth]{A2.png}
   \caption{DFAs $\mathcal{A}_1$ (left) and $\mathcal{A}_2$ (right).}
   \label{fig:dfas}
 \end{figure}
