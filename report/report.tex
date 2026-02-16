@@ -118,21 +118,32 @@ Complete the following table with all 8 possible strings of length 3 over $\{a,b
 \end{center}
 
 \subsubsection*{Exercise 1.2}
-Completely describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
+describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
 
 \textbf{Answer:}
 
-\textbf{$L(\mathcal{A}_1)$:} The language accepted by $\mathcal{A}_1$ consists of all strings over $\{a,b\}$ that start with $a$ and contain at least one $b$. In other words,
-\[
-L(\mathcal{A}_1) = \{ w \in \{a,b\}^* \mid w \text{ starts with } a \text{ and } w \text{ contains at least one } b \}.
-\]
-Equivalently, $L(\mathcal{A}_1) = a(a \cup b)^* b (a \cup b)^*$: the first symbol must be $a$, and at least one $b$ must appear somewhere in the string. (Any string beginning with $b$ leads to the trap state 4 and is rejected.)
+\textbf{$L(\mathcal{A}_1)$:} The language accepted by $\mathcal{A}_1$ consists of all strings over $\{a,b\}$ that start with $a$ and contain at least one $b$. Starting with b leads to the trap state 4 and is rejected.
+\textbf{$L(\mathcal{A}_2)$:} The language accepted by $\mathcal{A}_2$ consists of all strings over $\{a,b\}$ that contain the substring $aa$. Reading two consecutive $a$'s leads to the accepting state 3.
 
-\textbf{$L(\mathcal{A}_2)$:} The language accepted by $\mathcal{A}_2$ consists of all strings over $\{a,b\}$ that contain the substring $aa$. That is,
-\[
-L(\mathcal{A}_2) = \{ w \in \{a,b\}^* \mid w \text{ contains the substring } aa \}.
-\]
-Equivalently, $L(\mathcal{A}_2) = (a \cup b)^* aa (a \cup b)^*$: the automaton reaches the accepting state 3 when it reads two consecutive $a$'s.
+\subsubsection*{Exercise 2 (Designing DFAs)}
+Design DFAs whose accepted languages are given as follows:
+\begin{enumerate}
+  \item All the words that end with $ab$
+  \item All the words that contain $aba$
+  \item All the words that contain an odd number of $a$'s and an odd number of $b$'s
+  \item All the words that contain an even number of $a$'s and an odd number of $b$'s
+  \item All the words such that any three consecutive characters contain at least one $a$
+  \item All the words that contain $bbb$
+\end{enumerate}
+\textbf{What do you notice when comparing the various automata?}
+
+\textbf{Answer:} Each transition leads to a finalized state.
+
+\paragraph{Thought process.}
+I decided to map out a truth table and filled in all of the conditions and found that the outputs were satisfied at every condition, leading me to the conclusion that every transition was a satisfactory state condition.
+
+\subsubsection*{Question}
+How might you combine the languages $L(\mathcal{A}_1)$ and $L(\mathcal{A}_2)$ from Exercise 1 using set operations (union, intersection, complement), and would the result always be accepted by some DFA? Explain briefly.
 
 \section{Synthesis}
 
