@@ -117,6 +117,23 @@ Complete the following table with all 8 possible strings of length 3 over $\{a,b
 \end{tabular}
 \end{center}
 
+\subsubsection*{Exercise 1.2}
+Completely describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
+
+\textbf{Answer:}
+
+\textbf{$L(\mathcal{A}_1)$:} The language accepted by $\mathcal{A}_1$ consists of all strings over $\{a,b\}$ that start with $a$ and contain at least one $b$. In other words,
+\[
+L(\mathcal{A}_1) = \{ w \in \{a,b\}^* \mid w \text{ starts with } a \text{ and } w \text{ contains at least one } b \}.
+\]
+Equivalently, $L(\mathcal{A}_1) = a(a \cup b)^* b (a \cup b)^*$: the first symbol must be $a$, and at least one $b$ must appear somewhere in the string. (Any string beginning with $b$ leads to the trap state 4 and is rejected.)
+
+\textbf{$L(\mathcal{A}_2)$:} The language accepted by $\mathcal{A}_2$ consists of all strings over $\{a,b\}$ that contain the substring $aa$. That is,
+\[
+L(\mathcal{A}_2) = \{ w \in \{a,b\}^* \mid w \text{ contains the substring } aa \}.
+\]
+Equivalently, $L(\mathcal{A}_2) = (a \cup b)^* aa (a \cup b)^*$: the automaton reaches the accepting state 3 when it reads two consecutive $a$'s.
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
