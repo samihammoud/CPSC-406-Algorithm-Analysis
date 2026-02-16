@@ -19,6 +19,7 @@
     filecolor= blue,        % color of file links
     }
     
+\usepackage{graphicx}
 \usepackage{listings}
 \usepackage[utf8]{inputenc}                                                    
 \usepackage[T1]{fontenc}                                                       
@@ -84,6 +85,55 @@
 \section{Week by Week}\label{homework}
 
 \subsection{Week 1}
+
+\subsubsection*{Exercise 1}
+Consider the following DFAs $\mathcal{A}_1$ and $\mathcal{A}_2$.
+
+\begin{figure}[ht]
+  \centering
+  % DFA A1: 4 states, state 3 accept, state 4 trap
+  \begin{tikzpicture}[shorten >=1pt, node distance=2cm, auto]
+    \node[state, initial] (1) {1};
+    \node[state, right of=1] (2) {2};
+    \node[state, accepting, right of=2] (3) {3};
+    \node[state, right of=3] (4) {4};
+    \path[->] (1) edge node {a} (2) (1) edge node {b} (4)
+              (2) edge[loop above] node {a} (2) (2) edge node {b} (3)
+              (3) edge[bend left] node {a} (2) (3) edge[bend right] node {b} (2)
+              (4) edge[loop above] node {a,b} (4);
+  \end{tikzpicture}
+  \hspace{2cm}
+  % DFA A2: 3 states, state 3 accept
+  \begin{tikzpicture}[shorten >=1pt, node distance=2cm, auto]
+    \node[state, initial] (1) {1};
+    \node[state, right of=1] (2) {2};
+    \node[state, accepting, right of=2] (3) {3};
+    \path[->] (1) edge node {a} (2) (1) edge[loop above] node {b} (1)
+              (2) edge node {a} (3) (2) edge[bend left] node {b} (1)
+              (3) edge[loop above] node {a} (3) (3) edge[bend left] node {b} (1);
+  \end{tikzpicture}
+  \caption{DFAs $\mathcal{A}_1$ (left) and $\mathcal{A}_2$ (right).}
+  \label{fig:dfas}
+\end{figure}
+
+Complete the following table with all 8 possible strings of length 3 over $\{a,b\}$:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{String} & \textbf{Accepted by $\mathcal{A}_1$?} & \textbf{Accepted by $\mathcal{A}_2$?} \\
+  \hline
+  aaa & No & Yes \\
+  aab & Yes & No \\
+  aba & No & No \\
+  abb & No & No \\
+  baa & No & Yes \\
+  bab & No & No \\
+  bba & No & No \\
+  bbb & No & No \\
+  \hline
+\end{tabular}
+\end{center}
 
 \section{Synthesis}
 
