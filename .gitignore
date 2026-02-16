@@ -137,3 +137,25 @@ dist-ssr/
 
 # Build artifacts
 *.tsbuildinfo
+
+
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz
+report/*.bbl
+report/*.blg
+report/*.bcf
+report/*.run.xml
+report/*.nav
+report/*.snm
+report/*.vrb
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
