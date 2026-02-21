@@ -170,11 +170,10 @@ With notation as above, the \textbf{intersection automaton} is the product autom
 
 Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
 
-% Add images to report folder: A1hw2.jpg, A2hw2.jpg (from HackMD)
 \begin{figure}[ht]
   \centering
-  \IfFileExists{A1hw2.jpg}{\includegraphics[width=0.45\textwidth]{A1hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{A}^{(1)}$]}}}\quad
-  \IfFileExists{A2hw2.jpg}{\includegraphics[width=0.45\textwidth]{A2hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{A}^{(2)}$]}}}
+  \IfFileExists{A1hw2.png}{\includegraphics[width=0.45\textwidth]{A1hw2.png}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{A}^{(1)}$]}}}\quad
+  \IfFileExists{A2hw2.png}{\includegraphics[width=0.45\textwidth]{A2hw2.png}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{A}^{(2)}$]}}}
   \caption{$\mathcal{A}^{(1)}$ (left) and $\mathcal{A}^{(2)}$ (right).}
   \label{fig:A12}
 \end{figure}
@@ -183,22 +182,46 @@ Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
   \item \textbf{Describe $L(\mathcal{A}^{(1)})$ and $L(\mathcal{A}^{(2)})$.}
   
   \textbf{Answer:}
-  % TODO: describe languages
+  \begin{itemize}
+    \item $L(\mathcal{A}^{(1)})$: All non-empty strings over $\{a,b\}$ that \emph{alternate} between $a$ and $b$ (no two consecutive identical symbols). So the language is $a(ba)^* \cup b(ab)^*$. The automaton accepts when it ends in state 2 or 4; state 3 is a trap, and the only way to stay in $\{1,2,4\}$ is to alternate (from 2 only $b$ leads to 4, from 4 only $a$ leads to 2).
+    \item $L(\mathcal{A}^{(2)})$: All strings over $\{a,b\}$ that \emph{end with $a$}, i.e.\ $L(\mathcal{A}^{(2)}) = (a \cup b)^* a$. The only accepting state is 2, which is reached from 1 on input $a$; from 2, any symbol returns to 1, so we accept exactly when the last symbol read is $a$.
+  \end{itemize}
   
   \item \textbf{Construct the intersection automaton $\mathcal{A}$ for $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$ by drawing its transition diagram (omit unreachable states).}
   
   \textbf{Answer:}
-  % TODO: draw product automaton (e.g. with TikZ or insert image)
+  The product state set is $Q = Q^{(1)} \times Q^{(2)} = \{1,2,3,4\} \times \{1,2,3\}$. The initial state is $(1,1)$. The transition rule is $\delta((q_1, q_2), \sigma) = (\delta^{(1)}(q_1, \sigma), \delta^{(2)}(q_2, \sigma))$. The accepting set is $F = F^{(1)} \times F^{(2)} = \{2,4\} \times \{2\} = \{(2,2), (4,2)\}$. Only states reachable from $(1,1)$ are included; $(4,2)$ is unreachable. Reachable states and transitions:
+  \begin{center}
+  \begin{tikzpicture}[shorten >=1pt, node distance=2.2cm, auto, every node/.style={state}]
+    \node[state, initial] (11) {$(1,1)$};
+    \node[state, accepting, right of=11] (22) {$(2,2)$};
+    \node[state, right of=22] (31) {$(3,1)$};
+    \node[state, above right of=11] (43) {$(4,3)$};
+    \node[state, right of=43] (21) {$(4,1)$};
+    \node[state, right of=21] (23) {$(2,3)$};
+    \node[state, below right of=31] (32) {$(3,2)$};
+    \node[state, right of=32] (33) {$(3,3)$};
+    \path[->] (11) edge node {a} (22) edge node {b} (43)
+              (22) edge node {a} (31) edge node {b} (21)
+              (43) edge node {a} (23) edge node {b} (33)
+              (21) edge node {a} (22) edge node {b} (31)
+              (23) edge node {a} (31) edge node {b} (21)
+              (31) edge node {a} (32) edge node {b} (33)
+              (32) edge[bend left] node {a,b} (31)
+              (33) edge[loop right] node {a,b} (33);
+  \end{tikzpicture}
+  \end{center}
+  The only accepting state among the reachable ones is $(2,2)$.
   
   \item \textbf{Argue that $L(\mathcal{A}) = L(\mathcal{A}^{(1)}) \cap L(\mathcal{A}^{(2)})$.}
   
   \textbf{Answer:}
-  % TODO: short proof
+  By definition of the product automaton, the run of $\mathcal{A}$ on a word $w$ is the pair of runs of $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$ on $w$. So $\mathcal{A}$ is in state $(q_1, q_2)$ after reading $w$ iff $\mathcal{A}^{(1)}$ is in $q_1$ and $\mathcal{A}^{(2)}$ is in $q_2$. Since $F = F^{(1)} \times F^{(2)}$, we have $w \in L(\mathcal{A})$ iff $w \in L(\mathcal{A}^{(1)})$ and $w \in L(\mathcal{A}^{(2)})$, i.e.\ $L(\mathcal{A}) = L(\mathcal{A}^{(1)}) \cap L(\mathcal{A}^{(2)})$.
   
   \item \textbf{How can you change $\mathcal{A}$ to get an automaton $\mathcal{A}'$ with $L(\mathcal{A}') = L(\mathcal{A}^{(1)}) \cup L(\mathcal{A}^{(2)})$?}
   
   \textbf{Answer:}
-  % TODO: change F to (F^(1) x Q^(2)) cup (Q^(1) x F^(2))
+  Keep the same product automaton $(Q, \Sigma, \delta, q_0)$ and change only the set of accepting states. Define $F' := (F^{(1)} \times Q^{(2)}) \cup (Q^{(1)} \times F^{(2)})$. Then a word $w$ is accepted by $\mathcal{A}'$ iff the product run ends in a state $(q_1, q_2)$ with $q_1 \in F^{(1)}$ or $q_2 \in F^{(2)}$, i.e.\ iff $w \in L(\mathcal{A}^{(1)})$ or $w \in L(\mathcal{A}^{(2)})$. So $L(\mathcal{A}') = L(\mathcal{A}^{(1)}) \cup L(\mathcal{A}^{(2)})$.
 \end{enumerate}
 
 \subsubsection*{Exercise 2 (More automata)}
