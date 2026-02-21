@@ -220,14 +220,20 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{ex2-notes.png}
-    \caption{Handwritten notes: language rules for $\mathcal{B}^{(1)}$ (e.g.\ include 3 $a$'s at a time, any amount of $b$'s) and $\mathcal{B}^{(2)}$ (e.g.\ $b$ must follow an $a$, any amount of $b$'s), and DFA diagram for language 2.}
+    \caption{$L(\mathcal{B}^{(1)})$ rules: include 3 $a$'s at a time, any amount of $b$'s. $L(\mathcal{B}^{(2)})$ rules: $b$ must follow an $a$, any amount of $b$'s. DFA diagram for language 2.}
     \label{fig:ex2notes}
   \end{figure}
   
   \item \textbf{Construct the intersection automaton $\mathcal{B}$ for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ (omit unreachable states).}
   
   \textbf{Answer:}
-  The product automaton has states $(p_i, q_j)$ for $i,j \in \{0,1,2\}$, initial state $(p_0, q_0)$, and accepting set $F = \{p_0\} \times \{q_0\} = \{(p_0, q_0)\}$. The transition rule is $\delta((p_i, q_j), \sigma) = (\delta^{(1)}(p_i, \sigma), \delta^{(2)}(q_j, \sigma))$. All $9$ states are reachable from $(p_0, q_0)$. A word is accepted by $\mathcal{B}$ iff it is accepted by both $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$, so $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$, i.e.\ words where $\#_a(w) \equiv 0 \pmod{3}$, $\#_a(w)$ is even (hence $\#_a(w) \equiv 0 \pmod{6}$), and $w$ has no substring $aa$. One can draw the $9$-state diagram by applying the product transitions; the only accepting state is $(p_0, q_0)$.
+  Below is the intersection automaton diagram.
+  \begin{figure}[H]
+    \centering
+    \IfFileExists{ex2-dfa.png}{\includegraphics[width=0.85\textwidth]{ex2-dfa.png}}{\fbox{\parbox{0.8\textwidth}{\centering [Insert intersection automaton $\mathcal{B}$ diagram as \texttt{ex2-dfa.png} if desired]}}}
+    \caption{Intersection automaton $\mathcal{B}$ (hand-drawn diagram).}
+    \label{fig:ex2dfa}
+  \end{figure}
   
   \item \textbf{Argue that $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.}
   
