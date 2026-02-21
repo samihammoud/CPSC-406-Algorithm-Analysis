@@ -20,6 +20,7 @@
     }
     
 \usepackage{graphicx}
+\graphicspath{{.}{report/}}  % find images in current dir or report/ (when compiling from project root)
 \usepackage{ifthen}
 \usepackage{listings}
 \usepackage[utf8]{inputenc}                                                    
@@ -176,12 +177,14 @@ Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
   \item \textbf{Construct the intersection automaton $\mathcal{A}$ for $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$ by drawing its transition diagram (omit unreachable states).}
   
   \textbf{Answer:}
+  Below is the intersection automaton diagram.
   \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{ex1q2-dfa.png}
+    \includegraphics[width=0.85\textwidth]{ex1q2-dfa.png}
     \caption{Intersection automaton $\mathcal{A}$ (hand-drawn diagram).}
     \label{fig:ex1q2dfa}
   \end{figure}
+  \noindent\textit{If the image does not appear:} Ensure \texttt{ex1q2-dfa.png} is in the same folder as \texttt{report.tex} and run \texttt{pdflatex report.tex} from that folder (e.g.\ \texttt{cd report} then \texttt{pdflatex report.tex}).
   
   \item \textbf{Argue that $L(\mathcal{A}) = L(\mathcal{A}^{(1)}) \cap L(\mathcal{A}^{(2)})$.}
   
