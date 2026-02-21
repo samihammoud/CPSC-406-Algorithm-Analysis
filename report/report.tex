@@ -176,8 +176,6 @@ Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
   \item \textbf{Construct the intersection automaton $\mathcal{A}$ for $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$ by drawing its transition diagram (omit unreachable states).}
   
   \textbf{Answer:}
-  The product state set is $Q = Q^{(1)} \times Q^{(2)} = \{1,2,3,4\} \times \{1,2,3\}$. The initial state is $(1,1)$. The transition rule is $\delta((q_1, q_2), \sigma) = (\delta^{(1)}(q_1, \sigma), \delta^{(2)}(q_2, \sigma))$. The accepting set is $F = F^{(1)} \times F^{(2)} = \{2,4\} \times \{2\} = \{(2,2), (4,2)\}$. Only states reachable from $(1,1)$ are included; $(4,2)$ is unreachable.
-  
   \begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{ex1q2-dfa.png}
