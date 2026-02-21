@@ -20,6 +20,7 @@
     }
     
 \usepackage{graphicx}
+\usepackage{ifthen}
 \usepackage{listings}
 \usepackage[utf8]{inputenc}                                                    
 \usepackage[T1]{fontenc}                                                       
@@ -143,8 +144,100 @@ Design DFAs whose accepted languages are given as follows:
 I decided to map out a truth table and filled in all of the conditions and found that the outputs were satisfied at every condition, leading me to the conclusion that every transition was a satisfactory state condition.
 
 \subsubsection*{Question}
-How might you combine the languages $L(\mathcal{A}_1)$ and $L(\mathcal{A}_2)$ from Exercise 1 using set operations (union, intersection, complement),  
-Could you represent the logic with boolean logic exclusively?
+How might you combine the languages $L(\mathcal{A}_1)$ and $L(\mathcal{A}_2)$ from Exercise 1 using set operations (union, intersection, complement)? Could you represent the logic with boolean logic exclusively?
+
+\subsection{Week 2: Operations on Automata}\label{sec:week2}
+
+\subsubsection*{Product automata}
+
+We want to construct an automaton that recognizes exactly those words that are in both $L(\mathcal{A}^{(1)})$ and $L(\mathcal{A}^{(2)})$ by keeping track of both automata simultaneously.
+
+\begin{definition}[Product automaton]
+For DFAs $\mathcal{A}^{(1)} = (Q^{(1)}, \Sigma, \delta^{(1)}, q_0^{(1)}, F^{(1)})$ and $\mathcal{A}^{(2)} = (Q^{(2)}, \Sigma, \delta^{(2)}, q_0^{(2)}, F^{(2)})$ we define $\mathcal{A}=(Q, \Sigma, \delta, q_0, F)$ by:
+\begin{itemize}
+  \item $Q := Q^{(1)} \times Q^{(2)}$ (states are pairs $(q^{(1)}, q^{(2)})$)
+  \item $\delta((q^{(1)}, q^{(2)}), a) := (\delta^{(1)}(q^{(1)}, a), \delta^{(2)}(q^{(2)}, a))$
+  \item $q_0 := (q_0^{(1)}, q_0^{(2)})$
+\end{itemize}
+The set $F$ is chosen depending on the operation (intersection, union, etc.).
+\end{definition}
+
+\begin{definition}[Intersection automaton]
+With notation as above, the \textbf{intersection automaton} is the product automaton with $F := F^{(1)} \times F^{(2)}$. Then $L(\mathcal{A}) = L(\mathcal{A}^{(1)}) \cap L(\mathcal{A}^{(2)})$.
+\end{definition}
+
+\subsubsection*{Exercise 1 (Product automata)}
+
+Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
+
+% Add images to report folder: A1hw2.jpg, A2hw2.jpg (from HackMD)
+\begin{figure}[ht]
+  \centering
+  \IfFileExists{A1hw2.jpg}{\includegraphics[width=0.45\textwidth]{A1hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{A}^{(1)}$]}}}\quad
+  \IfFileExists{A2hw2.jpg}{\includegraphics[width=0.45\textwidth]{A2hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{A}^{(2)}$]}}}
+  \caption{$\mathcal{A}^{(1)}$ (left) and $\mathcal{A}^{(2)}$ (right).}
+  \label{fig:A12}
+\end{figure}
+
+\begin{enumerate}
+  \item \textbf{Describe $L(\mathcal{A}^{(1)})$ and $L(\mathcal{A}^{(2)})$.}
+  
+  \textbf{Answer:}
+  % TODO: describe languages
+  
+  \item \textbf{Construct the intersection automaton $\mathcal{A}$ for $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$ by drawing its transition diagram (omit unreachable states).}
+  
+  \textbf{Answer:}
+  % TODO: draw product automaton (e.g. with TikZ or insert image)
+  
+  \item \textbf{Argue that $L(\mathcal{A}) = L(\mathcal{A}^{(1)}) \cap L(\mathcal{A}^{(2)})$.}
+  
+  \textbf{Answer:}
+  % TODO: short proof
+  
+  \item \textbf{How can you change $\mathcal{A}$ to get an automaton $\mathcal{A}'$ with $L(\mathcal{A}') = L(\mathcal{A}^{(1)}) \cup L(\mathcal{A}^{(2)})$?}
+  
+  \textbf{Answer:}
+  % TODO: change F to (F^(1) x Q^(2)) cup (Q^(1) x F^(2))
+\end{enumerate}
+
+\subsubsection*{Exercise 2 (More automata)}
+
+Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
+
+% Add images to report folder: B1hw2.jpg, B2hw2.jpg (from HackMD)
+\begin{figure}[ht]
+  \centering
+  \IfFileExists{B1hw2.jpg}{\includegraphics[width=0.45\textwidth]{B1hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{B}^{(1)}$]}}}\quad
+  \IfFileExists{B2hw2.jpg}{\includegraphics[width=0.45\textwidth]{B2hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{B}^{(2)}$]}}}
+  \caption{$\mathcal{B}^{(1)}$ (left) and $\mathcal{B}^{(2)}$ (right).}
+  \label{fig:B12}
+\end{figure}
+
+(Recall: the complement of a language $L \subseteq \Sigma^*$ is $\overline{L} := \Sigma^* \setminus L$.)
+
+\begin{enumerate}
+  \item \textbf{Describe $L(\mathcal{B}^{(1)})$ and $L(\mathcal{B}^{(2)})$.}
+  
+  \textbf{Answer:}
+  % TODO
+  
+  \item \textbf{Construct the intersection automaton $\mathcal{B}$ for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ (omit unreachable states).}
+  
+  \textbf{Answer:}
+  % TODO
+  
+  \item \textbf{Argue that $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.}
+  
+  \textbf{Answer:}
+  % TODO
+  
+  \item \textbf{How can you change $\mathcal{B}$ to get an automaton $\mathcal{B}'$ with $L(\mathcal{B}') = L(\mathcal{B}^{(1)}) \cup \overline{L(\mathcal{B}^{(2)})}$?}
+  
+  \textbf{Answer:}
+  % TODO: use product with complement of B^(2) (swap accepting/non-accepting in B^(2)), then union
+\end{enumerate}
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
