@@ -211,16 +211,20 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
 
 (Recall: the complement of a language $L \subseteq \Sigma^*$ is $\overline{L} := \Sigma^* \setminus L$.)
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\textwidth]{ex2-notes.png}
+  \caption{Handwritten notes: language rules for $\mathcal{B}^{(1)}$ (e.g.\ include 3 $a$'s at a time, any amount of $b$'s) and $\mathcal{B}^{(2)}$ (e.g.\ $b$ must follow an $a$, any amount of $b$'s), and DFA diagram for language 2.}
+  \label{fig:ex2notes}
+\end{figure}
+
 \textbf{Intuition:} The intersection is \emph{not} empty. Although the only state that is both initial and accepting in both automata is the first state, we can still have words accepted by both: for example, the word $b$ (or any string of only $b$'s) keeps $\mathcal{B}^{(1)}$ in $p_0$ and $\mathcal{B}^{(2)}$ in $q_0$, so both accept. So $L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$ contains at least all strings in $b^*$, and more (e.g.\ strings with $6$ $a$'s and no substring $aa$).
 
 \begin{enumerate}
   \item \textbf{Describe $L(\mathcal{B}^{(1)})$ and $L(\mathcal{B}^{(2)})$.}
   
   \textbf{Answer:}
-  \begin{itemize}
-    \item $L(\mathcal{B}^{(1)})$: The automaton (with states $p_0, p_1, p_2$) accepts when it ends in $p_0$. Reading $a$ cycles $p_0 \to p_1 \to p_2 \to p_0$, and $b$ leaves the state unchanged. So we end in $p_0$ exactly when the number of $a$'s in the word is divisible by $3$. Thus $L(\mathcal{B}^{(1)}) = \{ w \in \{a,b\}^* \mid \#_a(w) \equiv 0 \pmod{3} \}$.
-    \item $L(\mathcal{B}^{(2)})$: The automaton (with states $q_0, q_1, q_2$) has $q_0$ as the only accepting state; $q_2$ is a trap. We leave $q_0$ on $a$ (to $q_1$), and from $q_1$ an $a$ sends us to $q_2$ (trap) while $b$ returns to $q_0$. So we never see the substring $aa$, and we end in $q_0$ exactly when the number of $a$'s is even. Thus $L(\mathcal{B}^{(2)}) = \{ w \in \{a,b\}^* \mid w \text{ has no substring } aa \text{ and } \#_a(w) \text{ is even} \}$.
-  \end{itemize}
+  $L(\mathcal{B}^{(1)})$ can accept any amount of $b$. (See handwritten notes and diagram below for full description of both languages.)
   
   \item \textbf{Construct the intersection automaton $\mathcal{B}$ for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ (omit unreachable states).}
   
@@ -230,12 +234,12 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
   \item \textbf{Argue that $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.}
   
   \textbf{Answer:}
-  By definition of the product automaton, after reading a word $w$, $\mathcal{B}$ is in state $(p_i, q_j)$ iff $\mathcal{B}^{(1)}$ is in $p_i$ and $\mathcal{B}^{(2)}$ is in $q_j$. Since $F = F^{(1)} \times F^{(2)}$, we have $w \in L(\mathcal{B})$ iff $\mathcal{B}^{(1)}$ accepts $w$ and $\mathcal{B}^{(2)}$ accepts $w$, i.e.\ $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.
+  Both automata have the rule that any amount of $b$'s is allowed. But we must combine the rules regarding $a$'s. $L(\mathcal{B}^{(1)})$ requires 3 $a$'s to be included at a time per word, while $\mathcal{B}^{(2)}$ requires the rule that $a$ must be followed by a $b$. This gives us the conclusion that words that do include an $a$ must come in pairs of 3 $a$'s with $b$ following the last $a$.
   
   \item \textbf{How can you change $\mathcal{B}$ to get an automaton $\mathcal{B}'$ with $L(\mathcal{B}') = L(\mathcal{B}^{(1)}) \cup \overline{L(\mathcal{B}^{(2)})}$?}
   
   \textbf{Answer:}
-  Build the product of $\mathcal{B}^{(1)}$ with the \emph{complement} of $\mathcal{B}^{(2)}$ (same states and transitions as $\mathcal{B}^{(2)}$, but with accepting set $Q^{(2)} \setminus F^{(2)}$, i.e.\ make $q_1$ and $q_2$ accepting and $q_0$ non-accepting). Then take the same product state set and transitions, but define the new accepting set to be the union of ``accept in $\mathcal{B}^{(1)}$'' and ``accept in complement of $\mathcal{B}^{(2)}$'': $F' = (F^{(1)} \times Q^{(2)}) \cup (Q^{(1)} \times (Q^{(2)} \setminus F^{(2)}))$. Then $L(\mathcal{B}') = L(\mathcal{B}^{(1)}) \cup \overline{L(\mathcal{B}^{(2)})}$.
+  We must flip the accepting states of automaton 1 to include: no amount of $b$'s AND words that include 3 $a$'s at a time only.
 \end{enumerate}
 
 \section{Synthesis}
