@@ -245,6 +245,18 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
   We must flip the accepting states of automaton 1 to include: no amount of $b$'s AND words that include 3 $a$'s at a time only.
 \end{enumerate}
 
+\subsubsection*{Exercise 3}
+Let $\mathcal{A}$ be a DFA and $q$ a state of $\mathcal{A}$ such that from $q$, every input symbol $a$ leaves us in $q$ (i.e.\ $\delta(q,a) = q$ for all $a$). Show by induction on the length of the input that for any input string $w$, we still end up in $q$ (i.e.\ $\delta^*(q,w) = q$).
+
+\textbf{Answer:}
+We show it by induction on the length of $w$. (Here $\delta^*(q,w)$ is just the state we end up in after starting at $q$ and reading the whole string $w$.)
+
+When the input has length $0$, the string is empty. So we don't read anything and we stay at $q$. So $\delta^*(q,w) = q$ in that case.
+
+Now suppose we've already shown that for every string of length $n$, we end up back at $q$. Take a string $w$ of length $n+1$. We can write it as $w = va$ (some string $v$ of length $n$ plus one symbol $a$). After reading $v$ we're in $\delta^*(q,v)$, and by our assumption that's $q$. Then we read $a$, and we're in $\delta(q,a)$, which is $q$ by the given rule. So after reading $w$ we're still in $q$, i.e.\ $\delta^*(q,w) = q$.
+
+So by induction, for all input strings $w$ we have $\delta^*(q,w) = q$.
+
 \subsubsection*{Question}
 If you build the product automaton for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ but change the accepting set to get the \emph{union} $L(\mathcal{B}^{(1)}) \cup L(\mathcal{B}^{(2)})$ instead of the intersection, how many states must be accepting?
 
