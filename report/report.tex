@@ -201,37 +201,41 @@ Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
 
 Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
 
-% Add images to report folder: B1hw2.jpg, B2hw2.jpg (from HackMD)
 \begin{figure}[ht]
   \centering
-  \IfFileExists{B1hw2.jpg}{\includegraphics[width=0.45\textwidth]{B1hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{B}^{(1)}$]}}}\quad
-  \IfFileExists{B2hw2.jpg}{\includegraphics[width=0.45\textwidth]{B2hw2.jpg}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{B}^{(2)}$]}}}
+  \IfFileExists{B1hw2.png}{\includegraphics[width=0.45\textwidth]{B1hw2.png}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{B}^{(1)}$]}}}\quad
+  \IfFileExists{B2hw2.png}{\includegraphics[width=0.45\textwidth]{B2hw2.png}}{\fbox{\parbox{0.4\textwidth}{\centering [Insert $\mathcal{B}^{(2)}$]}}}
   \caption{$\mathcal{B}^{(1)}$ (left) and $\mathcal{B}^{(2)}$ (right).}
   \label{fig:B12}
 \end{figure}
 
 (Recall: the complement of a language $L \subseteq \Sigma^*$ is $\overline{L} := \Sigma^* \setminus L$.)
 
+\textbf{Intuition:} The intersection is \emph{not} empty. Although the only state that is both initial and accepting in both automata is the first state, we can still have words accepted by both: for example, the word $b$ (or any string of only $b$'s) keeps $\mathcal{B}^{(1)}$ in $p_0$ and $\mathcal{B}^{(2)}$ in $q_0$, so both accept. So $L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$ contains at least all strings in $b^*$, and more (e.g.\ strings with $6$ $a$'s and no substring $aa$).
+
 \begin{enumerate}
   \item \textbf{Describe $L(\mathcal{B}^{(1)})$ and $L(\mathcal{B}^{(2)})$.}
   
   \textbf{Answer:}
-  % TODO
+  \begin{itemize}
+    \item $L(\mathcal{B}^{(1)})$: The automaton (with states $p_0, p_1, p_2$) accepts when it ends in $p_0$. Reading $a$ cycles $p_0 \to p_1 \to p_2 \to p_0$, and $b$ leaves the state unchanged. So we end in $p_0$ exactly when the number of $a$'s in the word is divisible by $3$. Thus $L(\mathcal{B}^{(1)}) = \{ w \in \{a,b\}^* \mid \#_a(w) \equiv 0 \pmod{3} \}$.
+    \item $L(\mathcal{B}^{(2)})$: The automaton (with states $q_0, q_1, q_2$) has $q_0$ as the only accepting state; $q_2$ is a trap. We leave $q_0$ on $a$ (to $q_1$), and from $q_1$ an $a$ sends us to $q_2$ (trap) while $b$ returns to $q_0$. So we never see the substring $aa$, and we end in $q_0$ exactly when the number of $a$'s is even. Thus $L(\mathcal{B}^{(2)}) = \{ w \in \{a,b\}^* \mid w \text{ has no substring } aa \text{ and } \#_a(w) \text{ is even} \}$.
+  \end{itemize}
   
   \item \textbf{Construct the intersection automaton $\mathcal{B}$ for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ (omit unreachable states).}
   
   \textbf{Answer:}
-  % TODO
+  The product automaton has states $(p_i, q_j)$ for $i,j \in \{0,1,2\}$, initial state $(p_0, q_0)$, and accepting set $F = \{p_0\} \times \{q_0\} = \{(p_0, q_0)\}$. The transition rule is $\delta((p_i, q_j), \sigma) = (\delta^{(1)}(p_i, \sigma), \delta^{(2)}(q_j, \sigma))$. All $9$ states are reachable from $(p_0, q_0)$. A word is accepted by $\mathcal{B}$ iff it is accepted by both $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$, so $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$, i.e.\ words where $\#_a(w) \equiv 0 \pmod{3}$, $\#_a(w)$ is even (hence $\#_a(w) \equiv 0 \pmod{6}$), and $w$ has no substring $aa$. One can draw the $9$-state diagram by applying the product transitions; the only accepting state is $(p_0, q_0)$.
   
   \item \textbf{Argue that $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.}
   
   \textbf{Answer:}
-  % TODO
+  By definition of the product automaton, after reading a word $w$, $\mathcal{B}$ is in state $(p_i, q_j)$ iff $\mathcal{B}^{(1)}$ is in $p_i$ and $\mathcal{B}^{(2)}$ is in $q_j$. Since $F = F^{(1)} \times F^{(2)}$, we have $w \in L(\mathcal{B})$ iff $\mathcal{B}^{(1)}$ accepts $w$ and $\mathcal{B}^{(2)}$ accepts $w$, i.e.\ $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.
   
   \item \textbf{How can you change $\mathcal{B}$ to get an automaton $\mathcal{B}'$ with $L(\mathcal{B}') = L(\mathcal{B}^{(1)}) \cup \overline{L(\mathcal{B}^{(2)})}$?}
   
   \textbf{Answer:}
-  % TODO: use product with complement of B^(2) (swap accepting/non-accepting in B^(2)), then union
+  Build the product of $\mathcal{B}^{(1)}$ with the \emph{complement} of $\mathcal{B}^{(2)}$ (same states and transitions as $\mathcal{B}^{(2)}$, but with accepting set $Q^{(2)} \setminus F^{(2)}$, i.e.\ make $q_1$ and $q_2$ accepting and $q_0$ non-accepting). Then take the same product state set and transitions, but define the new accepting set to be the union of ``accept in $\mathcal{B}^{(1)}$'' and ``accept in complement of $\mathcal{B}^{(2)}$'': $F' = (F^{(1)} \times Q^{(2)}) \cup (Q^{(1)} \times (Q^{(2)} \setminus F^{(2)}))$. Then $L(\mathcal{B}') = L(\mathcal{B}^{(1)}) \cup \overline{L(\mathcal{B}^{(2)})}$.
 \end{enumerate}
 
 \section{Synthesis}
