@@ -211,20 +211,18 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
 
 (Recall: the complement of a language $L \subseteq \Sigma^*$ is $\overline{L} := \Sigma^* \setminus L$.)
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\textwidth]{ex2-notes.png}
-  \caption{Handwritten notes: language rules for $\mathcal{B}^{(1)}$ (e.g.\ include 3 $a$'s at a time, any amount of $b$'s) and $\mathcal{B}^{(2)}$ (e.g.\ $b$ must follow an $a$, any amount of $b$'s), and DFA diagram for language 2.}
-  \label{fig:ex2notes}
-\end{figure}
 
-\textbf{Intuition:} The intersection is \emph{not} empty. Although the only state that is both initial and accepting in both automata is the first state, we can still have words accepted by both: for example, the word $b$ (or any string of only $b$'s) keeps $\mathcal{B}^{(1)}$ in $p_0$ and $\mathcal{B}^{(2)}$ in $q_0$, so both accept. So $L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$ contains at least all strings in $b^*$, and more (e.g.\ strings with $6$ $a$'s and no substring $aa$).
 
 \begin{enumerate}
   \item \textbf{Describe $L(\mathcal{B}^{(1)})$ and $L(\mathcal{B}^{(2)})$.}
   
   \textbf{Answer:}
-  $L(\mathcal{B}^{(1)})$ can accept any amount of $b$. (See handwritten notes and diagram below for full description of both languages.)
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{ex2-notes.png}
+    \caption{Handwritten notes: language rules for $\mathcal{B}^{(1)}$ (e.g.\ include 3 $a$'s at a time, any amount of $b$'s) and $\mathcal{B}^{(2)}$ (e.g.\ $b$ must follow an $a$, any amount of $b$'s), and DFA diagram for language 2.}
+    \label{fig:ex2notes}
+  \end{figure}
   
   \item \textbf{Construct the intersection automaton $\mathcal{B}$ for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ (omit unreachable states).}
   
