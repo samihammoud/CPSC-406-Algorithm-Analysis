@@ -260,6 +260,42 @@ So by induction, for all input strings $w$ we have $\delta^*(q,w) = q$.
 \subsubsection*{Question}
 If you build the product automaton for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ but change the accepting set to get the \emph{union} $L(\mathcal{B}^{(1)}) \cup L(\mathcal{B}^{(2)})$ instead of the intersection, how many states must be accepting?
 
+\subsection{Week 3}\label{sec:week3}
+
+\subsubsection*{Homework 1 (NFA)}
+\begin{enumerate}
+  \item Describe the language accepted by $\mathcal{A}$ using a regular expression.
+  \item Specify the NFA $\mathcal{A}$ in the form $(Q, \Sigma, \delta, q_0, F)$.
+  \item Find all paths in $\mathcal{A}$ for the word $w = abab$; represent in a diagram.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{week3-hw1.png}
+  \caption{Homework 1: NFA specification $(Q=\{0,1,2,3\}$, $\Sigma=\{a,b,c\}$, $q_0=0$, $F=\{2,3\})$ and all paths for $w=abab$.}
+  \label{fig:week3hw1}
+\end{figure}
+
+\subsubsection*{Homework 2 (Determinization)}
+Construct the determinization $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{week3-hw2.png}
+  \caption{Power set construction: transition table and graph of $\mathcal{A}^D$.}
+  \label{fig:week3hw2}
+\end{figure}
+
+\subsubsection*{Homework 3 (DFA and minimization)}
+Determine $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$. Then: can there be a smaller DFA accepting the same language? (Yes: the last two rows in the table are identical, so we can minimize by one state.)
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{week3-hw3.png}
+  \caption{Power set construction with alphabet $\{0,1\}$; table and graph of $\mathcal{A}^D$; minimization by merging identical rows.}
+  \label{fig:week3hw3}
+\end{figure}
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
