@@ -90,43 +90,10 @@
 \subsection{Week 1}
 
 \subsubsection*{Exercise 1}
-Consider the following DFAs $\mathcal{A}_1$ and $\mathcal{A}_2$.
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.45\textwidth]{A1.png}
-  \hfill
-  \includegraphics[width=0.45\textwidth]{A2.png}
-  \caption{DFAs $\mathcal{A}_1$ (left) and $\mathcal{A}_2$ (right).}
-  \label{fig:dfas}
-\end{figure}
-
-Complete the following table with all 8 possible strings of length 3 over $\{a,b\}$:
-
-\begin{center}
-\begin{tabular}{|c|c|c|}
-  \hline
-  \textbf{String} & \textbf{Accepted by $\mathcal{A}_1$?} & \textbf{Accepted by $\mathcal{A}_2$?} \\
-  \hline
-  aaa & No & Yes \\
-  aab & Yes & Yes \\
-  aba & Yes & No \\
-  abb & Yes & No \\
-  baa & No & Yes \\
-  bab & No & No \\
-  bba & No & No \\
-  bbb & No & No \\
-  \hline
-\end{tabular}
-\end{center}
+Consider the following DFAs $\mathcal{A}_1$ and $\mathcal{A}_2$. Complete the following table with all 8 possible strings of length 3 over $\{a,b\}$ (columns: Accepted by $\mathcal{A}_1$? and Accepted by $\mathcal{A}_2$?).
 
 \subsubsection*{Exercise 1.2}
-describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
-
-\textbf{Answer:}
-
-\textbf{$L(\mathcal{A}_1)$:} The language accepted by $\mathcal{A}_1$ consists of all strings over $\{a,b\}$ that start with $a$ and contain at least one $b$. Starting with b leads to the trap state 4 and is rejected.
-\textbf{$L(\mathcal{A}_2)$:} The language accepted by $\mathcal{A}_2$ consists of all strings over $\{a,b\}$ that contain the substring $aa$. Reading two consecutive $a$'s leads to the accepting state 3.
+Describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
 
 \subsubsection*{Exercise 2 (Designing DFAs)}
 Design DFAs whose accepted languages are given as follows:
@@ -140,10 +107,19 @@ Design DFAs whose accepted languages are given as follows:
 \end{enumerate}
 \textbf{What do you notice when comparing the various automata?}
 
-\textbf{Answer:} Each transition leads to a finalized state.
-
-\paragraph{Thought process.}
-I decided to map out a truth table and filled in all of the conditions and found that the outputs were satisfied at every condition, leading me to the conclusion that every transition was a satisfactory state condition.
+\textbf{Answers:}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{week1-ans1.png}
+  \caption{Week 1 answers (table, language conditions, DFA designs 2a--2d).}
+  \label{fig:week1ans1}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{week1-ans2.png}
+  \caption{Week 1 answers (DFA designs 2c, 2d; comparison of automata).}
+  \label{fig:week1ans2}
+\end{figure}
 
 \subsubsection*{Question}
 How might you combine the languages $L(\mathcal{A}_1)$ and $L(\mathcal{A}_2)$ from Exercise 1 using set operations (union, intersection, complement)? Could you represent the logic with boolean logic exclusively?
@@ -295,6 +271,9 @@ Determine $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Cre
   \caption{Power set construction with alphabet $\{0,1\}$; table and graph of $\mathcal{A}^D$; minimization by merging identical rows.}
   \label{fig:week3hw3}
 \end{figure}
+
+\subsubsection*{Question}
+After building $\mathcal{A}^D$ from an NFA $\mathcal{A}$ using the power set construction, when can we get a smaller DFA that still accepts the same language? 
 
 \section{Synthesis}
 
