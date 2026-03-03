@@ -245,6 +245,26 @@ If you build the product automaton for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)
   \item Find all paths in $\mathcal{A}$ for the word $w = abab$; represent in a diagram.
 \end{enumerate}
 
+\paragraph{Answer (NFA specification).}
+Here is how I write the NFA $\mathcal{A}$ formally:
+\[
+Q = \{0,1,2,3\}, \qquad
+\Sigma = \{a,b,c\}, \qquad
+q_0 = 0, \qquad
+F = \{2,3\}.
+\]
+For the transition function $\delta : Q \times \Sigma \to \mathcal{P}(Q)$ I use
+\[
+\begin{aligned}
+  \delta(0,a) &= \{0,1\}, &
+  \delta(0,b) &= \{0\}, &
+  \delta(0,c) &= \emptyset, \\
+  \delta(1,b) &= \{2\}, &
+  \delta(1,c) &= \{2\},
+\end{aligned}
+\]
+and any transition not listed goes to the empty set (i.e.\ there is no move).
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{week3-hw1.png}
@@ -255,20 +275,68 @@ If you build the product automaton for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)
 \subsubsection*{Homework 2 (Determinization)}
 Construct the determinization $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$.
 
+\paragraph{Transition table for $\mathcal{A}^D$ over $\{a,b,c\}$.}
+Starting from the NFA above, the reachable subset-states under the power set construction are
+\[
+\{0\},\ \{0,1\},\ \{0,1,2\},\ \{0,2,3\},\ \{2,3\},\ \emptyset.
+\]
+I call a subset accepting when it contains either $2$ or $3$.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  State $S$ & on input $a$ & on input $b$ & on input $c$ \\
+  \hline
+  $\{0\}$         & $\{0,1\}$       & $\{0\}$         & $\emptyset$ \\
+  $\{0,1\}$       & $\{0,1\}$       & $\{0,2\}$       & $\{2\}$     \\
+  $\{0,1,2\}$     & $\{0,1\}$       & $\{0,2\}$       & $\{2\}$     \\
+  $\{0,2\}$       & $\{0,1\}$       & $\{0,2\}$       & $\emptyset$ \\
+  $\{2\}$         & $\emptyset$     & $\{2\}$         & $\emptyset$ \\
+  $\emptyset$     & $\emptyset$     & $\emptyset$     & $\emptyset$ \\
+  \hline
+\end{tabular}
+\end{center}
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{week3-hw2.png}
-  \caption{Power set construction: transition table and graph of $\mathcal{A}^D$.}
+  \includegraphics[width=0.9\textwidth,trim=0 130 0 0,clip]{week3-hw2.png}
+  \caption{Graph of $\mathcal{A}^D$ (photo); the transition table is typeset separately in LaTeX.}
   \label{fig:week3hw2}
 \end{figure}
 
 \subsubsection*{Homework 3 (DFA and minimization)}
-Determine $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$. Then: can there be a smaller DFA accepting the same language? (Yes: the last two rows in the table are identical, so we can minimize by one state.)
+Determine $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction, now with alphabet $\{0,1\}$. Create both a transition table and a graphical depiction of $\mathcal{A}^D$. Then decide whether there can be a smaller DFA accepting the same language.
+
+\paragraph{Transition table over $\{0,1\}$.}
+From the NFA given in the homework, the reachable subset-states are
+\[
+\{q_0\},\ \{q_0,q_1\},\ \{q_0,q_1,q_2\},\ \{q_0,q_1,q_2,q_3\},\ \{q_0,q_3\}.
+\]
+The determinized DFA $\mathcal{A}^D$ has the following transitions:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+  State $S$ & on input $0$ & on input $1$ \\
+  \hline
+  $\{q_0\}$               & $\{q_0,q_1\}$             & $\{q_0\}$ \\
+  $\{q_0,q_1\}$           & $\{q_0,q_1,q_2\}$         & $\{q_0,q_1\}$ \\
+  $\{q_0,q_1,q_2\}$       & $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_1\}$ \\
+  $\{q_0,q_1,q_2,q_3\}$   & $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_1\}$ \\
+  $\{q_0,q_3\}$           & $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_1\}$ \\
+  \hline
+\end{tabular}
+\end{center}
+
+Any subset that contains the original accepting state(s) is accepting in $\mathcal{A}^D$.
+
+\paragraph{Smaller DFA?}
+Yes. In this table the last two rows (for $\{q_0,q_1,q_2,q_3\}$ and for $\{q_0,q_3\}$) have exactly the same outgoing transitions and the same accepting/non-accepting status. That means these two states are equivalent and can be merged into a single state, giving a smaller DFA that still recognizes the same language.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{week3-hw3.png}
-  \caption{Power set construction with alphabet $\{0,1\}$; table and graph of $\mathcal{A}^D$; minimization by merging identical rows.}
+  \includegraphics[width=0.9\textwidth,trim=0 130 0 0,clip]{week3-hw3.png}
+  \caption{State diagram of $\mathcal{A}^D$ for Homework 3 (photo of the graph only).}
   \label{fig:week3hw3}
 \end{figure}
 
