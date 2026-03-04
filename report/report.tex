@@ -116,7 +116,8 @@ Here is my completed table (words of length~3 over $\{a,b\}$):
 Describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
 
 \paragraph{Answer to Exercise 1.2.}
-In both cases the language is the same: for $k = 1,2$, $L(\mathcal{A}_k)$ is \emph{all the words over $\{a,b\}$ that end with $ab$}.
+For $k = 1$, $L(\mathcal{A}_1)$ is just the single word \emph{aab}.  
+For $k = 2$, $L(\mathcal{A}_2)$ is all words over $\{a,b\}$ that end in \emph{at least two $a$'s in a row} (so the last two symbols are $aa$).
 
 \subsubsection*{Exercise 2 (Designing DFAs)}
 Design DFAs whose accepted languages are given as follows:
@@ -389,54 +390,54 @@ and any transition not listed goes to the empty set (i.e.\ there is no move).
 Construct the determinization $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$.
 
 \paragraph{Transition table for $\mathcal{A}^D$ over $\{a,b,c\}$.}
-Starting from the NFA above, the reachable subset-states under the power set construction are
+From my construction I focus on the following subset-states:
 \[
-\{0\},\ \{0,1\},\ \{0,1,2\},\ \{0,2,3\},\ \{2,3\},\ \emptyset.
+\{0\},\ \{0,1\},\ \{0,2\},\ \{3\}.
 \]
-I call a subset accepting when it contains either $2$ or $3$.
+The transitions on $a$, $b$, and $c$ are:
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
   \hline
   State $S$ & on input $a$ & on input $b$ & on input $c$ \\
   \hline
-  $\{0\}$         & $\{0,1\}$       & $\{0\}$         & $\emptyset$ \\
-  $\{0,1\}$       & $\{0,1\}$       & $\{0,2\}$       & $\{2\}$     \\
-  $\{0,1,2\}$     & $\{0,1\}$       & $\{0,2\}$       & $\{2\}$     \\
-  $\{0,2\}$       & $\{0,1\}$       & $\{0,2\}$       & $\emptyset$ \\
-  $\{2\}$         & $\emptyset$     & $\{2\}$         & $\emptyset$ \\
-  $\emptyset$     & $\emptyset$     & $\emptyset$     & $\emptyset$ \\
+  $\{0\}$   & $\{0,1\}$ & $\{0\}$   & $\emptyset$ \\
+  $\{0,1\}$ & $\{0,1\}$ & $\{0,2\}$ & $\{3\}$     \\
+  $\{0,2\}$ & $\{0,1\}$ & $\{0\}$   & $\emptyset$ \\
+  $\{3\}$   & $\emptyset$ & $\emptyset$ & $\emptyset$ \\
   \hline
 \end{tabular}
 \end{center}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth,trim=0 130 0 0,clip]{week3-hw2.png}
-  \caption{Graph of $\mathcal{A}^D$ (photo); the transition table is typeset separately in LaTeX.}
+  \includegraphics[width=0.9\textwidth]{week3-hw2-graph.png}
+  \caption{Graph of $\mathcal{A}^D$ for Homework 2 (photo).}
   \label{fig:week3hw2}
 \end{figure}
+\noindent\textit{Note: Ignore the table in the photo; it is meant to show the graph only.}
 
 \subsubsection*{Homework 3 (DFA and minimization)}
 Determine $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction, now with alphabet $\{0,1\}$. Create both a transition table and a graphical depiction of $\mathcal{A}^D$. Then decide whether there can be a smaller DFA accepting the same language.
 
 \paragraph{Transition table over $\{0,1\}$.}
-From the NFA given in the homework, the reachable subset-states are
+From the NFA given in the homework, I use the following subset-states:
 \[
-\{q_0\},\ \{q_0,q_1\},\ \{q_0,q_1,q_2\},\ \{q_0,q_1,q_2,q_3\},\ \{q_0,q_3\}.
+q_0,\ \{q_0,q_1\},\ \{q_0,q_1,q_2\},\ \{q_0,q_3\},\ \{q_0,q_1,q_3\},\ \{q_0,q_1,q_2,q_3\}.
 \]
-The determinized DFA $\mathcal{A}^D$ has the following transitions:
+The determinized DFA $\mathcal{A}^D$ then has this transition table:
 
 \begin{center}
 \begin{tabular}{|c|c|c|}
   \hline
   State $S$ & on input $0$ & on input $1$ \\
   \hline
-  $\{q_0\}$               & $\{q_0,q_1\}$             & $\{q_0\}$ \\
-  $\{q_0,q_1\}$           & $\{q_0,q_1,q_2\}$         & $\{q_0,q_1\}$ \\
-  $\{q_0,q_1,q_2\}$       & $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_1\}$ \\
-  $\{q_0,q_1,q_2,q_3\}$   & $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_1\}$ \\
-  $\{q_0,q_3\}$           & $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_1\}$ \\
+  $q_0$                     & $q_0$                   & $\{q_0,q_1\}$ \\
+  $\{q_0,q_1\}$             & $q_0$                   & $\{q_0,q_1,q_2\}$ \\
+  $\{q_0,q_1,q_2\}$         & $\{q_0,q_3\}$           & $\{q_0,q_1,q_2\}$ \\
+  $\{q_0,q_3\}$             & $\{q_0,q_3\}$           & $\{q_0,q_1,q_3\}$ \\
+  $\{q_0,q_1,q_3\}$         & $\{q_0,q_3\}$           & $\{q_0,q_1,q_2,q_3\}$ \\
+  $\{q_0,q_1,q_2,q_3\}$     & $\{q_0,q_3\}$           & $\{q_0,q_1,q_2,q_3\}$ \\
   \hline
 \end{tabular}
 \end{center}
@@ -448,8 +449,8 @@ Yes. In this table the last two rows (for $\{q_0,q_1,q_2,q_3\}$ and for $\{q_0,q
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth,trim=0 130 0 0,clip]{week3-hw3.png}
-  \caption{State diagram of $\mathcal{A}^D$ for Homework 3 (photo of the graph only).}
+  \includegraphics[width=0.9\textwidth]{week3-hw3-graph.png}
+  \caption{State diagram of $\mathcal{A}^D$ for Homework 3 (photo of the graph).}
   \label{fig:week3hw3}
 \end{figure}
 
