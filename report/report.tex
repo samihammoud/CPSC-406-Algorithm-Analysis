@@ -357,6 +357,7 @@ If you build the product automaton for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)
   \item Describe the language accepted by $\mathcal{A}$ using a regular expression.
   \item Specify the NFA $\mathcal{A}$ in the form $(Q, \Sigma, \delta, q_0, F)$.
   \item Find all paths in $\mathcal{A}$ for the word $w = abab$; represent in a diagram.
+  \item Construct the determinization $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$.
 \end{enumerate}
 
 \paragraph{Answer (NFA specification).}
@@ -386,9 +387,6 @@ and any transition not listed goes to the empty set (i.e.\ there is no move).
   \label{fig:week3hw1}
 \end{figure}
 
-\subsubsection*{Homework 2 (Determinization)}
-Construct the determinization $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction. Create both a transition table and a graphical depiction of $\mathcal{A}^D$.
-
 \paragraph{Transition table for $\mathcal{A}^D$ over $\{a,b,c\}$.}
 From my construction I focus on the following subset-states:
 \[
@@ -411,13 +409,27 @@ The transitions on $a$, $b$, and $c$ are:
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{week3-hw2-graph.png}
-  \caption{Graph of $\mathcal{A}^D$ for Homework 2 (photo).}
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.7cm,on grid,auto]
+    \node[state,initial] (s0) {$\{0\}$};
+    \node[state] (s01) [right=of s0] {$\{0,1\}$};
+    \node[state,accepting] (s02) [below=of s01] {$\{0,2\}$};
+    \node[state,accepting] (s3) [below=of s0] {$\{3\}$};
+
+    \path[->]
+      (s0)  edge[loop above] node {$b$} ()
+            edge node {$a$} (s01)
+      (s01) edge[loop above] node {$a$} ()
+            edge node[right] {$b$} (s02)
+            edge node {$c$} (s3)
+      (s02) edge[loop right] node {$b$} ()
+            edge[bend left] node[above] {$a$} (s01)
+      (s3)  edge[loop left] node {$a,b,c$} ();
+  \end{tikzpicture}
+  \caption{Determinized DFA $\mathcal{A}^D$ for Homework 2 over alphabet $\{a,b,c\}$. Accepting states are the subsets that contain an original accepting state ($\{0,2\}$ and $\{3\}$).}
   \label{fig:week3hw2}
 \end{figure}
-\noindent\textit{Note: Ignore the table in the photo; it is meant to show the graph only.}
 
-\subsubsection*{Homework 3 (DFA and minimization)}
+\subsubsection*{Homework 2 (DFA and minimization)}
 Determine $\mathcal{A}^D$ of $\mathcal{A}$ using the power set construction, now with alphabet $\{0,1\}$. Create both a transition table and a graphical depiction of $\mathcal{A}^D$. Then decide whether there can be a smaller DFA accepting the same language.
 
 \paragraph{Transition table over $\{0,1\}$.}
@@ -449,8 +461,29 @@ Yes. In this table the last two rows (for $\{q_0,q_1,q_2,q_3\}$ and for $\{q_0,q
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{week3-hw3-graph.png}
-  \caption{State diagram of $\mathcal{A}^D$ for Homework 3 (photo of the graph).}
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.7cm,on grid,auto]
+    \node[state,initial] (q0) {$q_0$};
+    \node[state] (q01) [right=of q0] {$\{q_0,q_1\}$};
+    \node[state] (q012) [right=of q01] {$\{q_0,q_1,q_2\}$};
+    \node[state,accepting] (q03) [below=of q0] {$\{q_0,q_3\}$};
+    \node[state,accepting] (q013) [below=of q01] {$\{q_0,q_1,q_3\}$};
+    \node[state,accepting] (q0123) [below=of q012] {$\{q_0,q_1,q_2,q_3\}$};
+
+    \path[->]
+      (q0) edge[loop above] node {$0$} ()
+           edge node {$1$} (q01)
+      (q01) edge[bend left] node[above] {$0$} (q0)
+            edge node {$1$} (q012)
+      (q012) edge node[right] {$0$} (q03)
+             edge[loop above] node {$1$} ()
+      (q03) edge[loop below] node {$0$} ()
+            edge node {$1$} (q013)
+      (q013) edge[bend left] node[left] {$0$} (q03)
+             edge node {$1$} (q0123)
+      (q0123) edge[bend left] node[right] {$0$} (q03)
+              edge[loop below] node {$1$} ();
+  \end{tikzpicture}
+  \caption{Determinized DFA $\mathcal{A}^D$ for Homework 2 over alphabet $\{0,1\}$. Accepting states are the subsets that contain the original accepting state $q_3$.}
   \label{fig:week3hw3}
 \end{figure}
 
