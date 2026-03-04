@@ -92,8 +92,31 @@
 \subsubsection*{Exercise 1}
 Consider the following DFAs $\mathcal{A}_1$ and $\mathcal{A}_2$. Complete the following table with all 8 possible strings of length 3 over $\{a,b\}$ (columns: Accepted by $\mathcal{A}_1$? and Accepted by $\mathcal{A}_2$?).
 
+\paragraph{Answer to Exercise 1.1.}
+Here is my completed table (words of length~3 over $\{a,b\}$):
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+  word & Accepted by $\mathcal{A}_1$? & Accepted by $\mathcal{A}_2$? \\
+  \hline
+  $aaa$ & No  & Yes \\
+  $aab$ & Yes & No  \\
+  $aba$ & No  & No  \\
+  $abb$ & No  & No  \\
+  $baa$ & No  & Yes \\
+  $bab$ & No  & No  \\
+  $bba$ & No  & No  \\
+  $bbb$ & No  & No  \\
+  \hline
+\end{tabular}
+\end{center}
+
 \subsubsection*{Exercise 1.2}
 Describe the languages $L(\mathcal{A}_k)$ accepted by $\mathcal{A}_k$ for $k = 1, 2$.
+
+\paragraph{Answer to Exercise 1.2.}
+In both cases the language is the same: for $k = 1,2$, $L(\mathcal{A}_k)$ is \emph{all the words over $\{a,b\}$ that end with $ab$}.
 
 \subsubsection*{Exercise 2 (Designing DFAs)}
 Design DFAs whose accepted languages are given as follows:
@@ -107,19 +130,107 @@ Design DFAs whose accepted languages are given as follows:
 \end{enumerate}
 \textbf{What do you notice when comparing the various automata?}
 
-\textbf{Answers:}
+\paragraph{Answers for Exercise 2.}
+
+\paragraph{(1) Words that end with $ab$.}
+I use three states that remember the last one or two symbols. The DFA is:
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{week1-ans1.png}
-  \caption{Week 1 answers (table, language conditions, DFA designs 2a--2d).}
-  \label{fig:week1ans1}
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.6cm,on grid,auto]
+    \node[state,initial] (q0) {$q_0$};
+    \node[state] (q1) [right=of q0] {$q_1$};
+    \node[state,accepting] (q2) [right=of q1] {$q_2$};
+    \path[->]
+      (q0) edge[loop above] node {$b$} ()
+           edge node {$a$} (q1)
+      (q1) edge[loop above] node {$a$} ()
+           edge node {$b$} (q2)
+      (q2) edge[bend left] node[above] {$a$} (q1)
+           edge[bend left] node[below] {$b$} (q0);
+  \end{tikzpicture}
+  \caption{DFA for all words that end with $ab$.}
+  \label{fig:week1-endab}
 \end{figure}
+
+\paragraph{(2) Words that contain $aba$.}
+Here I track how much of the pattern $aba$ I have just seen as a suffix.
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{week1-ans2.png}
-  \caption{Week 1 answers (DFA designs 2c, 2d; comparison of automata).}
-  \label{fig:week1ans2}
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.6cm,on grid,auto]
+    \node[state,initial] (p0) {$p_0$};
+    \node[state] (p1) [right=of p0] {$p_1$};
+    \node[state] (p2) [right=of p1] {$p_2$};
+    \node[state,accepting] (p3) [right=of p2] {$p_3$};
+    \path[->]
+      (p0) edge[loop above] node {$b$} ()
+           edge node {$a$} (p1)
+      (p1) edge[loop above] node {$a$} ()
+           edge node {$b$} (p2)
+      (p2) edge node {$a$} (p3)
+           edge[bend left=40] node[below] {$b$} (p0)
+      (p3) edge[loop above] node {$a,b$} ();
+  \end{tikzpicture}
+  \caption{DFA for all words that contain $aba$ as a substring.}
+  \label{fig:week1-contains-aba}
 \end{figure}
+
+\paragraph{(3) Odd number of $a$'s and odd number of $b$'s.}
+For this and the next language I use the same 4-state parity automaton, but choose different accepting states. The four states remember the parity (even/odd) of the number of $a$'s and $b$'s seen so far.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.4cm,on grid,auto]
+    \node[state,initial] (ee) {$q_{ee}$};
+    \node[state] (eo) [right=of ee] {$q_{eo}$};
+    \node[state] (oe) [below=of ee] {$q_{oe}$};
+    \node[state,accepting] (oo) [right=of oe] {$q_{oo}$};
+    \path[->]
+      (ee) edge[loop above] node {$a^0,b^0$} ()
+           edge node {$b$} (eo)
+           edge node[left] {$a$} (oe)
+      (eo) edge[loop above] node {$b$} ()
+           edge node[left] {$a$} (oo)
+      (oe) edge[loop left] node {$a$} ()
+           edge node {$b$} (oo)
+      (oo) edge[loop above] node {$a,b$} ();
+  \end{tikzpicture}
+  \caption{Parity DFA: state $q_{xy}$ means $x$-parity for $a$'s and $y$-parity for $b$'s. For language (3) we accept $q_{oo}$ (odd $a$'s and odd $b$'s).}
+  \label{fig:week1-parity}
+\end{figure}
+
+\paragraph{(4) Even number of $a$'s and odd number of $b$'s.}
+Using the same parity DFA in Figure~\ref{fig:week1-parity}, this time the accepting state is $q_{eo}$ (even $a$'s, odd $b$'s) instead of $q_{oo}$.
+
+\paragraph{(5) Any three consecutive characters contain at least one $a$.}
+This is the same as saying that we never see $bbb$ as a substring. I track runs of consecutive $b$'s up to length~3; hitting three $b$'s in a row moves to a dead (rejecting) state.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.4cm,on grid,auto]
+    \node[state,initial,accepting] (r0) {$r_0$};
+    \node[state,accepting] (r1) [right=of r0] {$r_1$};
+    \node[state,accepting] (r2) [right=of r1] {$r_2$};
+    \node[state] (r3) [right=of r2] {$r_3$};
+    \path[->]
+      (r0) edge[loop above] node {$a$} ()
+           edge node {$b$} (r1)
+      (r1) edge[loop above] node {$a$} ()
+           edge node {$b$} (r2)
+      (r2) edge[loop above] node {$a$} ()
+           edge node {$b$} (r3)
+      (r3) edge[loop above] node {$a,b$} ();
+  \end{tikzpicture}
+  \caption{DFA that forbids $bbb$; states $r_0,r_1,r_2$ are accepting, $r_3$ is a dead state reached after three $b$'s in a row.}
+  \label{fig:week1-nobbb}
+\end{figure}
+
+\paragraph{(6) Words that contain $bbb$.}
+I reuse the same transition structure as in Figure~\ref{fig:week1-nobbb}, but now $r_3$ is the \emph{only} accepting state (once we have seen three consecutive $b$'s we stay in an accepting sink).
+
+\paragraph{What I notice.}
+Several of these automata reuse the same underlying structure but just change which states are accepting (for example (3) vs.\ (4), and (5) vs.\ (6)). In other words, a lot of the ``different'' languages here really come from the same core DFA with a different choice of final states.
 
 \subsubsection*{Question}
 How might you combine the languages $L(\mathcal{A}_1)$ and $L(\mathcal{A}_2)$ from Exercise 1 using set operations (union, intersection, complement)? Could you represent the logic with boolean logic exclusively?
