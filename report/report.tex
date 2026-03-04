@@ -157,10 +157,11 @@ Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
   Below is the intersection automaton diagram.
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{ex1q2-dfa.png}
-    \caption{Intersection automaton $\mathcal{A}$ (hand-drawn diagram).}
+    \includegraphics[width=0.85\textwidth]{ex1-intersection.png}
+    \caption{Intersection automaton $\mathcal{A}$ for $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$ (omit unreachable states).}
     \label{fig:ex1q2dfa}
   \end{figure}
+  \noindent\textit{Note:} $\{2,2\}$ as accepting state for intersection product automaton.
   
   \item \textbf{Argue that $L(\mathcal{A}) = L(\mathcal{A}^{(1)}) \cap L(\mathcal{A}^{(2)})$.}
   
@@ -170,7 +171,7 @@ Consider the following automata $\mathcal{A}^{(1)}$ and $\mathcal{A}^{(2)}$.
   \item \textbf{How can you change $\mathcal{A}$ to get an automaton $\mathcal{A}'$ with $L(\mathcal{A}') = L(\mathcal{A}^{(1)}) \cup L(\mathcal{A}^{(2)})$?}
   
   \textbf{Answer:}
-  We can allow for both word combinations to be accepting and add more state transitions.
+  In the product automaton we would add the accepting states to not be exclusive to both, but inclusive of either one of the subset DFA's accepting state.
 \end{enumerate}
 
 \subsubsection*{Exercise 2 (More automata)}
@@ -205,10 +206,11 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
   Below is the intersection automaton diagram.
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{ex2-notes.png}
-    \caption{$L(\mathcal{B}^{(1)})$ rules: include 3 $a$'s at a time, any amount of $b$'s. $L(\mathcal{B}^{(2)})$ rules: $b$ must follow an $a$, any amount of $b$'s. DFA diagram for language 2.}
-    \label{fig:ex2notes}
+    \includegraphics[width=0.85\textwidth]{ex2-intersection.png}
+    \caption{Intersection automaton $\mathcal{B}$ for $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$ (omit unreachable states).}
+    \label{fig:ex2intersection}
   \end{figure}
+  \noindent\textit{Note:} $(P_0, Q_0)$ as accepting state.
   
   \item \textbf{Argue that $L(\mathcal{B}) = L(\mathcal{B}^{(1)}) \cap L(\mathcal{B}^{(2)})$.}
   
@@ -218,7 +220,7 @@ Consider the following automata $\mathcal{B}^{(1)}$ and $\mathcal{B}^{(2)}$.
   \item \textbf{How can you change $\mathcal{B}$ to get an automaton $\mathcal{B}'$ with $L(\mathcal{B}') = L(\mathcal{B}^{(1)}) \cup \overline{L(\mathcal{B}^{(2)})}$?}
   
   \textbf{Answer:}
-  We must flip the accepting states of automaton 1 to include: no amount of $b$'s AND words that include 3 $a$'s at a time only.
+  The Union is equivalent to its intersection, no possible change.
 \end{enumerate}
 
 \subsubsection*{Exercise 3}
