@@ -490,6 +490,63 @@ Yes. In this table the last two rows (for $\{q_0,q_1,q_2,q_3\}$ and for $\{q_0,q
 \subsubsection*{Question}
 After building $\mathcal{A}^D$ from an NFA $\mathcal{A}$ using the power set construction, when can we get a smaller DFA that still accepts the same language? 
 
+\subsection{Week 4}\label{sec:week4}
+
+Consider the following DFA $\mathcal{A}$: there is a state $p$ (initial and final) with transition $a$ to itself and transition $b$ to state $q$; state $q$ has transition $b$ to itself and transition $a$ to $p$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[>=stealth',shorten >=1pt,node distance=2.8cm,on grid,auto]
+    \node[state,initial,accepting] (p) {$p$};
+    \node[state] (q) [right=of p] {$q$};
+    \path[->]
+      (p) edge[loop above] node {$a$} ()
+          edge node[above] {$b$} (q)
+      (q) edge[loop above] node {$b$} ()
+          edge node[below] {$a$} (p);
+  \end{tikzpicture}
+  \caption{DFA $\mathcal{A}$ for Week 4: $p$ is initial and final; $p \xrightarrow{a} p$, $p \xrightarrow{b} q$, $q \xrightarrow{b} q$, $q \xrightarrow{a} p$.}
+  \label{fig:week4dfa}
+\end{figure}
+
+\paragraph{Question.} For $p = 1$ and $q = 2$, compute via Kleene's algorithm all regular expressions $R^{(k)}_{ij}$ and from this a resulting regular expression $R$ describing $L(\mathcal{A})$, i.e., such that $L(R) = L(\mathcal{A})$.
+
+\paragraph{Answer.} I label the states so that state $1$ is $p$ and state $2$ is $q$. In Kleene's algorithm, $R^{(k)}_{ij}$ denotes the set of all strings that label paths from $i$ to $j$ with intermediate states (if any) in $\{1,\ldots,k\}$. The recurrence is
+\[
+R^{(k)}_{ij} = R^{(k-1)}_{ij} \cup R^{(k-1)}_{ik} \bigl(R^{(k-1)}_{kk}\bigr)^* R^{(k-1)}_{kj}.
+\]
+I write union as $+$ in expressions below.
+
+\paragraph{Base case $k=0$} (no intermediate states; only direct edges and $\varepsilon$ on same state):
+\[
+R^{(0)}_{11} = \varepsilon + a,\qquad
+R^{(0)}_{12} = b,\qquad
+R^{(0)}_{21} = a,\qquad
+R^{(0)}_{22} = \varepsilon + b.
+\]
+
+\paragraph{Inductive step $k=1$} (intermediate state 1 allowed). Using $(R^{(0)}_{11})^* = (\varepsilon+a)^* = a^*$:
+\begin{align*}
+R^{(1)}_{11} &= R^{(0)}_{11} + R^{(0)}_{11}(R^{(0)}_{11})^* R^{(0)}_{11} = (\varepsilon+a) + (\varepsilon+a)a^*(\varepsilon+a) = a^*; \\
+R^{(1)}_{12} &= R^{(0)}_{12} + R^{(0)}_{11}(R^{(0)}_{11})^* R^{(0)}_{12} = b + (\varepsilon+a)a^* b = a^*b; \\
+R^{(1)}_{21} &= R^{(0)}_{21} + R^{(0)}_{21}(R^{(0)}_{11})^* R^{(0)}_{11} = a + a\,a^*(\varepsilon+a) = a\,a^*; \\
+R^{(1)}_{22} &= R^{(0)}_{22} + R^{(0)}_{21}(R^{(0)}_{11})^* R^{(0)}_{12} = (\varepsilon+b) + a\,a^* b = (\varepsilon+b) + a^+b.
+\end{align*}
+
+\paragraph{Inductive step $k=2$} (all states allowed). Set $C = R^{(1)}_{22} = (\varepsilon+b) + a^+b = b + a^+b$ (since $\varepsilon+b$ gives $\varepsilon$ and $b$). Then $(R^{(1)}_{22})^* = (b + a^+b)^*$. Only state $1$ is accepting, so $L(\mathcal{A})$ is the set of strings that label paths from $1$ to $1$:
+\[
+R^{(2)}_{11} = R^{(1)}_{11} + R^{(1)}_{12}\,\bigl(R^{(1)}_{22}\bigr)^* R^{(1)}_{21}
+= a^* + a^*b\,(b+a^+b)^*\,a^+.
+\]
+Thus a regular expression $R$ with $L(R) = L(\mathcal{A})$ is
+\[
+\boxed{R \;=\; a^* + a^*b\,(b+a^+b)^*\,a^+}.
+\]
+(Here $a^+ = aa^*$; one can also write $a^*b\,(b \cup a^+b)^*\,a^+$ if union is denoted $\cup$.)
+
+\subsubsection*{Question}
+If we changed the DFA so that both $p$ and $q$ were accepting states, how would the regular expression $R$ for $L(\mathcal{A})$ change? Would it simplify to a shorter expression?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
