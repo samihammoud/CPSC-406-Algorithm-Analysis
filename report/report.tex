@@ -547,6 +547,70 @@ Thus a regular expression $R$ with $L(R) = L(\mathcal{A})$ is
 \subsubsection*{Question}
 If we changed the DFA so that both $p$ and $q$ were accepting states, how would the regular expression $R$ for $L(\mathcal{A})$ change? Would it simplify to a shorter expression?
 
+\subsection{Week 5}\label{sec:week5}
+
+\subsubsection*{Exercise (Pumping lemma and non-regular languages)}
+Show that the following languages are not regular using the pumping lemma:
+\[
+L_1 = \{ a^n b^m \in \{a,b\}^* \mid n,m \in \mathbb{N},\ n > m \ge 0 \},
+\]
+\[
+L_2 = \{ a^{n^2} \in \{a\}^* \mid n \in \mathbb{N},\ n \ge 1 \},
+\]
+\[
+L_3 = \{ a^p \in \{a\}^* \mid p \in \mathbb{N},\ p \text{ prime} \},
+\]
+\[
+L_4 = \{ a^k b^m a^{k+m} \mid k,m \ge 0 \}.
+\]
+
+\paragraph{1. Showing $L_1$ is not regular.}
+I assume $L_1$ is regular and take a pumping constant $p$ from the lemma. I pick the string
+\[
+w = a^{p+1} b^{p} \in L_1,
+\]
+since here $n = p+1$ and $m = p$ so indeed $n > m$. By the pumping lemma I can write $w = xyz$ with $|xy| \le p$, $|y| \ge 1$, and for all $i \ge 0$ the pumped string $xy^i z$ should still be in $L_1$.\newline
+Because $|xy| \le p$ and $w$ starts with only $a$'s, the substring $y$ must consist entirely of $a$'s. So say $y = a^t$ with $t \ge 1$. If I pump down with $i = 0$, I get the string
+\[
+xy^0 z = xz = a^{p+1 - t} b^p,
+\]
+so the number of $a$'s in this string is $p+1-t$, and the number of $b$'s is still $p$. Since $t \ge 1$, I now have $p+1-t \le p$, so $n \le m$ for this pumped string. That means $xy^0 z \notin L_1$, contradicting the pumping lemma. So my assumption that $L_1$ was regular must be wrong; $L_1$ is not regular.
+
+\paragraph{2. Showing $L_2$ is not regular.}
+Again I assume $L_2$ is regular and let $p$ be the pumping length. I choose
+\[
+w = a^{p^2} \in L_2,
+\]
+since $p^2$ is a perfect square. The lemma gives me a split $w = xyz$ with $|xy| \le p$, $|y| \ge 1$, and $xy^i z \in L_2$ for all $i \ge 0$. Because the whole word is just $a$'s and $|xy| \le p$, I know that $y = a^t$ for some $1 \le t \le p$.\newline
+Now I pump once with $i = 2$. Then
+\[
+xy^2 z = a^{p^2 + t}.
+\]
+If this were in $L_2$, I would need $p^2 + t = n^2$ for some integer $n$. But $1 \le t \le p$, so $p^2 < p^2 + t < (p+1)^2 = p^2 + 2p + 1$. There is no perfect square strictly between $p^2$ and $(p+1)^2$, so $p^2 + t$ cannot be a square. Hence $xy^2 z \notin L_2$, contradicting the pumping lemma. So $L_2$ is not regular.
+
+\paragraph{3. Showing $L_3$ is not regular.}
+I assume $L_3$ is regular and take its pumping length $p$. Choose $w = a^q \in L_3$ where $q$ is any prime number with $q \ge p$ (there are infinitely many primes, so I can definitely pick one large enough). Then $w = xyz$ with $|xy| \le p$, $|y| \ge 1$, and $xy^i z \in L_3$ for all $i \ge 0$. As before, $y = a^t$ where $1 \le t \le p$.\newline
+The length of $w$ is $q$, and the length of $xy^i z$ is $q + (i-1)t$. I look at $i = q+1$ to pump a bunch of copies of $y$:
+\[
+|xy^{q+1} z| = q + q t = q(1+t).
+\]
+This number is clearly a composite (product of $q$ and $1+t$, both $>1$), so it is not prime. That means $xy^{q+1} z \notin L_3$, contradicting the pumping lemma. Therefore $L_3$ is not regular.
+
+\paragraph{4. Showing $L_4$ is not regular.}
+Assume $L_4$ is regular and let $p$ be its pumping length. I pick
+\[
+w = a^{p} b^{p} a^{2p} \in L_4,
+\]
+since here $k = p$ and $m = p$, so the last block is $a^{k+m} = a^{2p}$. The pumping lemma says $w = xyz$ with $|xy| \le p$, $|y| \ge 1$, and $xy^i z \in L_4$ for all $i \ge 0$. Because $|xy| \le p$ and the first $p$ symbols are $a$'s, the piece $y$ sits entirely in the first block of $a$'s. So $y = a^t$ for some $1 \le t \le p$.\newline
+If I pump with $i = 2$, the new word is
+\[
+xy^2 z = a^{p+t} b^{p} a^{2p}.
+\]
+In this string, the leftmost block of $a$'s has length $k' = p+t$, the $b$-block has length $m' = p$, but the rightmost block is still $a^{2p}$, i.e.\ length $2p$. For this to be in $L_4$ I would need the last block to have length $k' + m' = (p+t) + p = 2p + t$. That would mean I need $2p = 2p + t$, which is impossible since $t \ge 1$. So $xy^2z \notin L_4$, contradicting the pumping lemma. Hence $L_4$ is not regular.
+
+\subsubsection*{Question}
+In these pumping-lemma proofs I always picked one very specific string $w$ in each language. How much freedom do I actually have in choosing $w$? Could I have picked a different family of strings (for example, $a^{p+2}b^{p+1}$ for $L_1$) and still made the same argument work just as well?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
