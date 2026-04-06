@@ -754,6 +754,52 @@ Which of the following statements is true? If yes, give an argument; if no, give
 \subsubsection*{Question}
 When I argue something is decidable vs.\ only r.e., what is the key difference in the machine behavior I'm relying on? Is it basically always ``will it halt on the reject cases''?
 
+\subsection{Week 7}\label{sec:week7}
+
+\subsubsection*{Exercise 2 (Decidability)}
+Argue for each of the languages $L_1$, $L_2$, $L_3$ whether they are decidable, recursively enumerable (r.e.), or have recursively enumerable complement (co-r.e.).
+\begin{align*}
+L_1 &:= \{ M \mid \text{$M$ halts on itself} \}, \\
+L_2 &:= \{ (M,w) \mid \text{$M$ halts on the word $w$} \}, \\
+L_3 &:= \{ (M,w,k) \mid \text{$M$ halts on $w$ in at most $k$ steps} \}.
+\end{align*}
+
+\paragraph{Answer.}
+I treat inputs as valid encodings of Turing machines (and tuples) over a fixed alphabet.
+
+\paragraph{$L_2$ (the halting problem).}
+$L_2$ is \textbf{not decidable} (Turing's theorem). It \textbf{is r.e.}: on input $(M,w)$, simulate $M$ on $w$ step by step; if $M$ ever halts, accept. If $(M,w)$ is a yes-instance, this simulation eventually halts and we accept. If $M$ never halts on $w$, the simulator runs forever, so we never reject---which is fine for recognition.
+
+The complement $\overline{L_2}$ is \textbf{not r.e.}: if both $L_2$ and $\overline{L_2}$ were r.e., we could run recognizers in parallel and decide halting, contradicting undecidability. So $L_2$ is r.e.\ but not co-r.e.
+
+\paragraph{$L_1$.}
+$L_1$ is essentially the same phenomenon as halting, with a fixed input (the encoding of $M$ itself). It is \textbf{not decidable}: if we had a decider for $L_1$, we could decide $L_2$ as follows---given $(M,w)$, build a machine $M_w$ that ignores its input and simulates $M$ on $w$; then $M_w$ halts on every input (in particular on itself) iff $M$ halts on $w$. So decidability of $L_1$ would imply decidability of $L_2$.
+
+It \textbf{is r.e.}: on input $M$, simulate $M$ on the string encoding $M$; accept if that simulation halts. It is \textbf{not co-r.e.} for the same ``if both sides were r.e.\ then decidable'' reason as for $L_2$.
+
+\paragraph{$L_3$.}
+$L_3$ is \textbf{decidable}. On input $(M,w,k)$, simulate $M$ on $w$ for exactly $k$ steps (or until $M$ halts, whichever comes first). If $M$ has halted by then, accept; otherwise reject. This always halts because the simulation is bounded by $k$.
+
+If a language is decidable, it is both r.e.\ and co-r.e.\ (complement decidable $\Rightarrow$ complement r.e.). So $L_3$ is decidable, r.e., and co-r.e.
+
+\subsubsection*{Exercise 5 (Landau notation --- sorting)}
+Classic examples come from sorting. Discuss the comparison of runtimes (in Landau notation) for the following pairs: bubble sort vs.\ insertion sort; insertion sort vs.\ merge sort; merge sort vs.\ quick sort.
+
+\paragraph{Answer.}
+I compare \emph{worst-case} time in terms of the number of elements $n$, counting key comparisons as in typical analyses.
+
+\paragraph{Bubble sort vs.\ insertion sort.}
+Both have \textbf{worst-case} time $\Theta(n^2)$ comparisons. Bubble sort always does about $\Theta(n^2)$ comparisons even in the best case unless one adds an early-exit optimization; insertion sort in the \textbf{best} case (already sorted) uses $\Theta(n)$ comparisons. So worst-case asymptotics match; insertion sort is often preferable when the input is nearly sorted or small.
+
+\paragraph{Insertion sort vs.\ merge sort.}
+Insertion sort is $\Theta(n^2)$ worst case (and average case under many models). Merge sort uses \textbf{divide and conquer} and has worst-case $\Theta(n \log n)$ comparisons and a tight $\Theta(n \log n)$ bound overall for the usual implementation. So merge sort \textbf{asymptotically dominates} insertion sort for large $n$ on worst-case inputs; insertion sort can still win on tiny $n$ because of low overhead.
+
+\paragraph{Merge sort vs.\ quick sort.}
+Merge sort has \textbf{worst-case} $\Theta(n \log n)$ time (predictable). The usual randomized (or good pivot) quick sort has \textbf{expected} $\Theta(n \log n)$ time, but \textbf{worst-case} $\Theta(n^2)$ if pivots are always extreme (e.g.\ already sorted input with naive pivot choice). So merge sort wins on worst-case guarantees; quick sort is often faster in practice on average due to cache behavior and in-place variants, but Landau worst-case favors merge sort.
+
+\subsubsection*{Question}
+For $L_3$, the bound $k$ is what makes the problem decidable. If I removed $k$ and only asked whether $M$ halts on $w$ at all, is there any way to still get a decider by ``simulating longer and longer'' without cheating---or is that exactly why $L_2$ stays undecidable?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
