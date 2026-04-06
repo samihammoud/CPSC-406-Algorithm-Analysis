@@ -798,7 +798,7 @@ Insertion sort is $\Theta(n^2)$ worst case (and average case under many models).
 Merge sort has \textbf{worst-case} $\Theta(n \log n)$ time (predictable). The usual randomized (or good pivot) quick sort has \textbf{expected} $\Theta(n \log n)$ time, but \textbf{worst-case} $\Theta(n^2)$ if pivots are always extreme (e.g.\ already sorted input with naive pivot choice). So merge sort wins on worst-case guarantees; quick sort is often faster in practice on average due to cache behavior and in-place variants, but Landau worst-case favors merge sort.
 
 \subsubsection*{Question}
-I'm still wrapping my head around this: if I know a language is r.e.\ but I also know its complement isn't, does that basically force the language to be undecidable every time? And on the sorting side, when would I actually pick insertion sort over merge sort in real code if merge sort's big-$O$ looks strictly better
+if I know a language is r.e.\ but I also know its complement isn't, does that basically force the language to be undecidable every time? 
 
 \section{Synthesis}
 
