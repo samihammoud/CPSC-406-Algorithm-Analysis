@@ -800,6 +800,123 @@ Merge sort has \textbf{worst-case} $\Theta(n \log n)$ time (predictable). The us
 \subsubsection*{Question}
 if I know a language is r.e.\ but I also know its complement isn't, does that basically force the language to be undecidable every time? 
 
+\subsection{Week 8}\label{sec:week8}
+
+\subsubsection*{Exercise 1 (Rewrite in CNF)}
+
+\paragraph{1. $\varphi_1 := \neg((a \land b) \lor (\neg c \land d))$.}
+
+\textbf{Step 1:} No implications to eliminate.
+
+\textbf{Step 2:} Apply De Morgan to the outer negation. The inner connective is $\lor$, so:
+\[
+\neg((a \land b) \lor (\neg c \land d)) \equiv \neg(a \land b) \land \neg(\neg c \land d)
+\]
+
+\textbf{Step 3:} Apply De Morgan to each remaining negation:
+\[
+\neg(a \land b) \equiv \neg a \lor \neg b
+\]
+\[
+\neg(\neg c \land d) \equiv \neg\neg c \lor \neg d \equiv c \lor \neg d
+\]
+
+\textbf{Result (CNF):}
+\[
+(\neg a \lor \neg b) \land (c \lor \neg d)
+\]
+
+\paragraph{2. $\varphi_2 := \neg((p \lor q) \to (r \land \neg s))$.}
+
+\textbf{Step 1:} Eliminate the implication using $a \to b \equiv \neg a \lor b$:
+\[
+(p \lor q) \to (r \land \neg s) \equiv \neg(p \lor q) \lor (r \land \neg s)
+\]
+So the full formula becomes:
+\[
+\neg(\neg(p \lor q) \lor (r \land \neg s))
+\]
+
+\textbf{Step 2:} Apply De Morgan to the outer negation. The inner connective is $\lor$, so:
+\[
+\neg\neg(p \lor q) \land \neg(r \land \neg s)
+\]
+
+\textbf{Step 3:} Simplify each part. Double negation on the left:
+\[
+\neg\neg(p \lor q) \equiv p \lor q
+\]
+De Morgan on the right:
+\[
+\neg(r \land \neg s) \equiv \neg r \lor \neg\neg s \equiv \neg r \lor s
+\]
+
+\textbf{Result (CNF):}
+\[
+(p \lor q) \land (\neg r \lor s)
+\]
+
+\subsubsection*{Exercise 2 (Satisfiability)}
+
+\paragraph{1. $\psi_1 := (a \lor \neg b) \land (\neg a \lor b) \land (\neg a \lor \neg b)$.}
+
+We check all possible assignments for $a, b$:
+
+\begin{center}
+\begin{tabular}{cc|ccc|c}
+$a$ & $b$ & $(a \lor \neg b)$ & $(\neg a \lor b)$ & $(\neg a \lor \neg b)$ & Result \\
+\hline
+T & T & T & T & F & F \\
+T & F & T & F & T & F \\
+F & T & F & T & T & F \\
+F & F & T & T & T & \textbf{T} \\
+\end{tabular}
+\end{center}
+
+\textbf{Satisfiable.} Witness: $a = \text{F},\ b = \text{F}$.
+
+\paragraph{2. $\psi_2 := (\neg p \lor q) \land (\neg q \lor r) \land \neg(\neg p \lor r)$.}
+
+\textbf{Step 1:} Simplify the third clause using De Morgan:
+\[
+\neg(\neg p \lor r) \equiv p \land \neg r
+\]
+Rewrite $\psi_2$ as:
+\[
+(\neg p \lor q) \land (\neg q \lor r) \land p \land \neg r
+\]
+
+\textbf{Step 2:} The unit clauses $p$ and $\neg r$ force $p = \text{T}$ and $r = \text{F}$.
+
+\textbf{Step 3:} Propagate into clause 1: $(\neg p \lor q) = (\text{F} \lor q) = q$, so $q = \text{T}$.
+
+\textbf{Step 4:} Propagate into clause 2: $(\neg q \lor r) = (\text{F} \lor \text{F}) = \text{F}$. Contradiction.
+
+\textbf{Unsatisfiable.} The clauses imply $p \to q$ and $q \to r$, hence $p \to r$, but the third clause demands $p \land \neg r$, a direct contradiction.
+
+\paragraph{3. $\psi_3 := (x \lor y) \land (\neg x \lor y) \land (x \lor \neg y) \land (\neg x \lor \neg y)$.}
+
+\textbf{Step 1:} From clauses 1 and 2:
+\begin{itemize}
+    \item $(x \lor y)$: if $x = \text{F}$, then $y = \text{T}$.
+    \item $(\neg x \lor y)$: if $x = \text{T}$, then $y = \text{T}$.
+\end{itemize}
+In either case, $y = \text{T}$.
+
+\textbf{Step 2:} From clauses 3 and 4:
+\begin{itemize}
+    \item $(x \lor \neg y)$: if $x = \text{F}$, then $\neg y = \text{T}$, so $y = \text{F}$.
+    \item $(\neg x \lor \neg y)$: if $x = \text{T}$, then $\neg y = \text{T}$, so $y = \text{F}$.
+\end{itemize}
+In either case, $y = \text{F}$.
+
+\textbf{Step 3:} We need $y = \text{T}$ and $y = \text{F}$ simultaneously. Contradiction.
+
+\textbf{Unsatisfiable.}
+
+\subsubsection*{Question}
+When I'm stuck on satisfiability, is it usually faster for me to brute-force the truth table (like for $\psi_1$) or try unit propagation / chaining implications first---and how do I know which one won't blow up?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
