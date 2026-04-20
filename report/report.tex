@@ -917,6 +917,130 @@ In either case, $y = \text{F}$.
 \subsubsection*{Question}
 When I'm stuck on satisfiability, is it usually faster for me to brute-force the truth table (like for $\psi_1$) or try unit propagation / chaining implications first?
 
+\subsection{Week 9}\label{sec:week9}
+
+\subsubsection*{Exercise 1 (General vs.\ Horn resolution)}
+
+\paragraph{1a) Resolution for $ \varphi $.}
+\[
+\varphi :=(a \lor b)\land(\neg a \lor c)\land(\neg b \lor c)\land(\neg c \lor d)\land \neg d
+\]
+
+\textbf{Step 1 (clauses).} Converting to a clause set just means we list each conjunct as a clause:
+\[
+\mathcal{C}_\varphi = \{\, (a \lor b),\ (\neg a \lor c),\ (\neg b \lor c),\ (\neg c \lor d),\ (\neg d)\,\}.
+\]
+
+\textbf{Step 2 (resolution to derive $\Box$).} I label the clauses:
+\begin{align*}
+C_1&=(a\lor b) \\
+C_2&=(\neg a\lor c) \\
+C_3&=(\neg b\lor c) \\
+C_4&=(\neg c\lor d) \\
+C_5&=(\neg d)
+\end{align*}
+
+Now resolve repeatedly:
+\begin{align*}
+C_6&=(\neg c) &&\text{from } C_4 \text{ and } C_5 \text{ (resolve on } d\text{)}\\
+C_7&=(\neg a) &&\text{from } C_2 \text{ and } C_6 \text{ (resolve on } c\text{)}\\
+C_8&=(\neg b) &&\text{from } C_3 \text{ and } C_6 \text{ (resolve on } c\text{)}\\
+C_9&=(b)      &&\text{from } C_1 \text{ and } C_7 \text{ (resolve on } a\text{)}\\
+C_{10}&=\Box  &&\text{from } C_9 \text{ and } C_8 \text{ (resolve on } b\text{)}
+\end{align*}
+
+Since we derived the empty clause $\Box$, the clause set is unsatisfiable, so $\varphi$ is \textbf{unsatisfiable}.
+
+\paragraph{1b) Unit resolution for $ \psi $ (Horn).}
+\[
+\psi= p \land q \land (\neg p \lor \neg q \lor r)\land(\neg r \lor s)\land \neg s
+\]
+
+\textbf{Step 1 (clauses + why Horn).} The clauses are:
+\[
+\mathcal{C}_\psi=\{\, (p),\ (q),\ (\neg p\lor \neg q \lor r),\ (\neg r\lor s),\ (\neg s)\,\}.
+\]
+This is a \textbf{Horn} formula because \emph{every clause has at most one positive literal}:
+- $(p)$ and $(q)$ each have one positive literal,
+- $(\neg p\lor \neg q \lor r)$ has only one positive literal ($r$),
+- $(\neg r\lor s)$ has only one positive literal ($s$),
+- $(\neg s)$ has zero positive literals.
+
+\textbf{Step 2 (unit resolution).} Start with unit clauses $(p)$, $(q)$, and $(\neg s)$.
+\begin{align*}
+D_1&=(p)\\
+D_2&=(q)\\
+D_3&=(\neg p\lor \neg q \lor r)\\
+D_4&=(\neg r\lor s)\\
+D_5&=(\neg s)
+\end{align*}
+
+Unit-resolve:
+\begin{align*}
+D_6&=(\neg q \lor r) &&\text{from } D_3 \text{ and } D_1 \text{ (unit-resolve on } p\text{)}\\
+D_7&=(r)            &&\text{from } D_6 \text{ and } D_2 \text{ (unit-resolve on } q\text{)}\\
+D_8&=(s)            &&\text{from } D_4 \text{ and } D_7 \text{ (unit-resolve on } r\text{)}\\
+D_9&=\Box           &&\text{from } D_8 \text{ and } D_5 \text{ (unit-resolve on } s\text{)}
+\end{align*}
+
+So by unit resolution we derive $\Box$, hence $\psi$ is \textbf{unsatisfiable}.
+
+\subsubsection*{Exercise 2 (Drone control system)}
+\textbf{Policy:}
+\begin{enumerate}
+  \item If GPS lock and battery health are both good, enabling motor power is allowed.
+  \item A manual override key also allows enabling motor power.
+  \item If battery health is bad, enabling motor power must be blocked.
+\end{enumerate}
+
+\textbf{Incident log:} GPS lock valid; battery unhealthy; manual override present; motor power enabled.
+
+\paragraph{1) Variables (intended meaning).}
+I use:
+\begin{itemize}
+  \item $G$: GPS lock is valid.
+  \item $B$: battery is healthy.
+  \item $O$: manual override present.
+  \item $E$: motor power enabled (or ``enabling motor power happens'').
+\end{itemize}
+
+\paragraph{2) Formalize policy + log.}
+Policy as implications:
+\[
+(G \land B) \to E,\qquad O \to E,\qquad \neg B \to \neg E.
+\]
+Incident log:
+\[
+G \land \neg B \land O \land E.
+\]
+So the full theory is the conjunction of policy and log.
+
+\paragraph{3) Clause form.}
+Convert each implication $X\to Y$ to $\neg X \lor Y$:
+\begin{align*}
+(G\land B)\to E &\equiv (\neg G \lor \neg B \lor E)\\
+O\to E &\equiv (\neg O \lor E)\\
+\neg B \to \neg E &\equiv (B \lor \neg E)
+\end{align*}
+Add the log as unit clauses:
+\[
+(G),\ (\neg B),\ (O),\ (E).
+\]
+So the clause set is:
+\[
+\mathcal{C}=\{\,(\neg G \lor \neg B \lor E),\ (\neg O \lor E),\ (B \lor \neg E),\ (G),\ (\neg B),\ (O),\ (E)\,\}.
+\]
+
+\paragraph{4) Resolution check (consistency).}
+From $(B \lor \neg E)$ and $(\neg B)$ we get $(\neg E)$ by resolution on $B$.
+Then $(\neg E)$ with $(E)$ resolves to $\Box$.
+
+\paragraph{5) Conflict explanation.}
+The log says the battery is unhealthy ($\neg B$) \emph{and} motor power is enabled ($E$), but the policy says if the battery is unhealthy then motor power must be blocked ($\neg B \to \neg E$). So the policy forces $\neg E$ while the log asserts $E$.
+
+\subsubsection*{Question}
+In the drone problem, the contradiction came from one policy rule that flat-out blocks $E$ when the battery is bad. If I wanted the policy to allow overrides \emph{but still be safe}, what's the cleanest way to rewrite the rules so that the override doesn't automatically contradict the battery-safety rule?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
