@@ -1040,6 +1040,101 @@ The log says the battery is unhealthy ($\neg B$) \emph{and} motor power is enabl
 
 \subsubsection*{Question}
 In the drone problem, I could just prove the contradiction based on the third clause from the policy, without having to resolve, correctt? 
+
+\subsection{Week 10}\label{sec:week10}
+
+\subsubsection*{Exercise (Induction on recurrences)}
+
+\paragraph{4.3-1. Show that the solution of $T(n)=T(n-1)+n$ is $O(n^2)$.}
+\textbf{Claim.} There exist constants $c>0$ and $n_0$ such that $T(n)\le c n^2$ for all $n\ge n_0$.
+
+\textbf{Proof by induction.}  
+Assume the recurrence holds for $n\ge 2$ and $T(1)=d$ (constant).
+
+\textit{Base case:} choose $c\ge d$. Then
+\[
+T(1)=d\le c=c\cdot 1^2.
+\]
+
+\textit{Inductive step:} assume for some $n\ge 2$ that $T(n-1)\le c(n-1)^2$. Then
+\begin{align*}
+T(n) &= T(n-1)+n \\
+&\le c(n-1)^2+n \\
+&= cn^2-2cn+c+n.
+\end{align*}
+So it is enough that $-2cn+c+n\le 0$, i.e.
+\[
+n(1-2c)+c\le 0.
+\]
+This is true for all $n\ge 1$ if we choose $c\ge 1$ (for example $c=1$ works). Hence $T(n)\le cn^2$ for all large $n$, so $T(n)=O(n^2)$.
+
+\paragraph{4.3-2. Show that the solution of $T(n)=T(\lceil n/2\rceil)+1$ is $O(\lg n)$.}
+\textbf{Claim.} There exist constants $c>0,n_0$ such that $T(n)\le c\lg n$ for $n\ge n_0$.
+
+\textbf{Proof by induction.}  
+Let $T(1)=d$ and choose $c\ge d+1$.
+
+\textit{Base case:} for $n=2$,
+\[
+T(2)=T(1)+1=d+1\le c=c\lg 2.
+\]
+
+\textit{Inductive step:} assume for all smaller arguments (in particular for $\lceil n/2\rceil$) that
+\[
+T(\lceil n/2\rceil)\le c\lg\lceil n/2\rceil.
+\]
+Then
+\begin{align*}
+T(n) &= T(\lceil n/2\rceil)+1 \\
+&\le c\lg\lceil n/2\rceil+1 \\
+&\le c\lg\!\left(\frac{n+1}{2}\right)+1 \\
+&= c\lg(n+1)-c+1.
+\end{align*}
+For $n\ge 2$, $\lg(n+1)\le \lg(2n)=1+\lg n$, so
+\[
+T(n)\le c(1+\lg n)-c+1 = c\lg n+1.
+\]
+If $c\ge 1$, then $c\lg n+1\le c\lg n + c$; absorbing constants into the asymptotic bound gives $T(n)=O(\lg n)$.
+
+\paragraph{4.3-3. We know $T(n)=2T(\lfloor n/2\rfloor)+n$ is $O(n\lg n)$. Show it is also $\Omega(n\lg n)$, so $T(n)=\Theta(n\lg n)$.}
+\textbf{Claim.} There are constants $c>0,n_0$ such that $T(n)\ge c n\lg n$ for all $n\ge n_0$.
+
+\textbf{Proof by induction (lower bound).}  
+Assume $T(1)=d\ge 0$. Pick any $c\le 1/4$.
+
+\textit{Base case:} for $n=2$,
+\[
+T(2)=2T(1)+2\ge 2 \ge 2c = c\cdot 2\lg 2.
+\]
+
+\textit{Inductive step:} assume for all smaller values, in particular $m=\lfloor n/2\rfloor$,
+\[
+T(m)\ge c\,m\lg m.
+\]
+Then
+\begin{align*}
+T(n) &= 2T(\lfloor n/2\rfloor)+n \\
+&\ge 2c\,\lfloor n/2\rfloor\lg\!\lfloor n/2\rfloor + n.
+\end{align*}
+For $n\ge 4$, $\lfloor n/2\rfloor\ge n/4$ and $\lg\lfloor n/2\rfloor\ge \lg(n/4)=\lg n-2$, so
+\begin{align*}
+T(n) &\ge 2c\cdot \frac n4 (\lg n-2)+n \\
+&= \frac c2\,n\lg n - cn + n.
+\end{align*}
+Since $c\le 1/4$, we have $-cn+n\ge \tfrac34 n\ge 0$, hence
+\[
+T(n)\ge \frac c2\,n\lg n.
+\]
+So $T(n)=\Omega(n\lg n)$.
+
+We already have $T(n)=O(n\lg n)$, therefore
+\[
+T(n)=\Theta(n\lg n).
+\]
+
+\subsubsection*{Question}
+When I do these induction proofs for recurrences, I always get stuck picking constants $c$ and the base threshold. Is there a reliable way to choose them fast without trial-and-error every single time?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
