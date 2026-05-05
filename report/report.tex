@@ -1135,6 +1135,84 @@ T(n)=\Theta(n\lg n).
 \subsubsection*{Question}
 When I do these induction proofs for recurrences, is there a reliable way to choose them fast without trial-and-error every single time?
 
+\subsection{Week 11}\label{sec:week11}
+
+\subsubsection*{Exercise (Recursion trees, substitution, master method)}
+
+\paragraph{4.4-2. $T(n)=T(n/2)+n^2$.}
+\textbf{Recursion tree.} At the root we pay $n^2$. The only child at depth $1$ pays $(n/2)^2$, at depth $2$ we pay $(n/4)^2$, and so on until the leaf at depth about $\lg n$. The total cost is
+\[
+n^2 + \frac{n^2}{4} + \frac{n^2}{16} + \cdots
+= n^2\sum_{i\ge 0} 4^{-i}
+= \frac{4}{3}n^2 + O(1).
+\]
+So a good asymptotic upper bound is $T(n)=O(n^2)$ (and in fact this geometric series is $\Theta(n^2)$).
+
+\textbf{Substitution (verify $O(n^2)$).} Guess $T(n)\le c n^2$ for $n\ge n_0$. Then
+\[
+T(n)=T(n/2)+n^2 \le c(n/2)^2+n^2 = \frac{c}{4}n^2+n^2.
+\]
+We need $\frac{c}{4}n^2+n^2\le c n^2$, i.e.\ $1\le \frac{3c}{4}$, so $c\ge \frac{4}{3}$. Pick $c=4/3$ (and handle bases separately). Hence $T(n)=O(n^2)$, matching the tree.
+
+\paragraph{4.4-3. $T(n)=4T(n/2)+n+2$.}
+The $+2$ is absorbed by $\Theta(n)$: write $T(n)=4T(n/2)+\Theta(n)$.
+
+\textbf{Master method.} Here $a=4$, $b=2$, so $n^{\log_b a}=n^2$. Also $f(n)=n=O(n^{2-\varepsilon})$ for any fixed $0<\varepsilon<1$. This is \textbf{Case~1} of the master theorem, so $T(n)=\Theta(n^2)$.
+
+\textbf{Recursion tree.} At depth $i$ there are $4^i$ subproblems of size $n/2^i$, each incurring about $n/2^i$ nonrecursive work at that level, so the level cost is about $4^i\cdot (n/2^i)=n\,2^i$. Summing $i=0$ to $\Theta(\lg n)$ gives $\Theta(n\cdot 2^{\lg n})=\Theta(n^2)$.
+
+\textbf{Substitution (verify $O(n^2)$).} Guess $T(n)\le c n^2 - d n$. Then
+\begin{align*}
+T(n) &= 4T(n/2)+n+2 \\
+&\le 4\bigl(c(n/2)^2-d(n/2)\bigr)+n+2 \\
+&= c n^2 - 2d n + n + 2.
+\end{align*}
+We want $c n^2 - 2d n + n + 2 \le c n^2 - d n$, i.e.\ $-2d n+n+2\le -d n$, i.e.\ $n+2\le d n$. For $n\ge 3$, taking $d\ge 2$ works; adjust $c$ large enough for small bases.
+
+\paragraph{4.4-4. $T(n)=2T(n-1)+1$.}
+\textbf{Recursion tree.} One branch repeatedly decreases the argument by $1$, so the tree has depth $\Theta(n)$ along that path. At depth $k$ the coefficient doubles: roughly total $\sum_{k=0}^{n-1} 2^k = 2^n-1$. So we guess $T(n)=O(2^n)$.
+
+\textbf{Substitution.} Guess $T(n)\le c 2^n - 1$. Then
+\[
+T(n)=2T(n-1)+1 \le 2(c 2^{n-1}-1)+1 = c 2^n -1.
+\]
+So the induction closes exactly with room only for the $-1$ slack (pick compatible bases).
+
+Thus $T(n)=O(2^n)$; similarly one gets a matching $\Omega(2^n)$ from $T(n)\ge 2T(n-1)$, so $T(n)=\Theta(2^n)$.
+
+\paragraph{4.4-5. $T(n)=T(n-1)+T(n/2)+n$.}
+\textbf{Lower bound (easy).} Since $T(n)\ge T(n-1)+n$, unfolding gives
+\[
+T(n)\ge T(1)+\sum_{k=2}^{n} k = \Omega(n^2).
+\]
+
+\textbf{Recursion tree + upper bound.} Intuitively the $T(n-1)$ branch drives most of the growth; charging each unit of ``$+n$'' work along that spine contributes $\Theta(n^2)$ total (same order as the lower bound). A common clean choice is to prove $T(n)=O(n^2)$ by \textbf{strong induction} with the guess $T(n)\le c n^2$ for all smaller arguments: one expands
+\[
+T(n)=T(n-1)+T(n/2)+n
+\le c(n-1)^2 + c(n/2)^2 + n
+= \frac{5c}{4}n^2 + O(n),
+\]
+which does \emph{not} directly close the naive inequality $T(n)\le c n^2$ when both recursive terms use the same quadratic guess---so in class it is usually acceptable to either (i) adjust the guess to a slightly larger template (for example $T(n)\le c n^2 + d n\log n$ with bookkeeping), or (ii) finish with a charging argument that shows the tree's total work is still $\Theta(n^2)$. Matching the $\Omega(n^2)$ lower bound, the solution is $\Theta(n^2)$.
+
+\subsubsection*{Exercise 4.5-1 (Master method)}
+
+Here $a=2$, $b=4$, so $n^{\log_b a}=n^{\log_4 2}=n^{1/2}=\sqrt{n}$.
+
+\paragraph{(a) $T(n)=2T(n/4)+1$.}
+$f(n)=1=O(n^{1/2-\varepsilon})$ for any fixed $0<\varepsilon<\tfrac12$. \textbf{Case~1:} $T(n)=\Theta(\sqrt{n})$.
+
+\paragraph{(b) $T(n)=2T(n/4)+\sqrt{n}$.}
+$f(n)=\Theta(\sqrt{n})=\Theta(n^{\log_4 2})$. \textbf{Case~2:} $T(n)=\Theta(\sqrt{n}\log n)$.
+
+\paragraph{(c) $T(n)=2T(n/4)+n$.}
+$f(n)=n=\Omega(n^{1/2+\varepsilon})$ for some $\varepsilon>0$, and the regularity condition holds since $af(n/b)=2(n/4)=n/2\le \tfrac12 f(n)$ for $n\ge 2$. \textbf{Case~3:} $T(n)=\Theta(n)$.
+
+\paragraph{(d) $T(n)=2T(n/4)+n^2$.}
+$f(n)=n^2=\Omega(n^{1/2+\varepsilon})$, and $af(n/b)=2(n/4)^2=n^2/8\le \tfrac18 f(n)$. \textbf{Case~3:} $T(n)=\Theta(n^2)$.
+
+\subsubsection*{Question}
+When I use the recursion tree I feel like I'm just drawing pictures---how do I know when the tree guess is actually tight enough that substitution won't fight me (like that annoying $\frac{5}{4}c$ mismatch in 4.4-5)?
+
 \section{Synthesis}
 
 \section{Evidence of Participation}
