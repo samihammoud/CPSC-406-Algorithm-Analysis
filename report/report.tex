@@ -1131,7 +1131,7 @@ We already have $T(n)=O(n\lg n)$, therefore
 \[
 T(n)=\Theta(n\lg n).
 \]
-
+lstset
 \subsubsection*{Question}
 When I do these induction proofs for recurrences, is there a reliable way to choose them fast without trial-and-error every single time?
 
@@ -1211,7 +1211,54 @@ $f(n)=n=\Omega(n^{1/2+\varepsilon})$ for some $\varepsilon>0$, and the regularit
 $f(n)=n^2=\Omega(n^{1/2+\varepsilon})$, and $af(n/b)=2(n/4)^2=n^2/8\le \tfrac18 f(n)$. \textbf{Case~3:} $T(n)=\Theta(n^2)$.
 
 \subsubsection*{Question}
-When I use the recursion tree I feel like I'm just drawing pictures---how do I know when the tree guess is actually tight enough that substitution won't fight me (like that annoying $\frac{5}{4}c$ mismatch in 4.4-5)?
+When I use the recursion tree I feel like I'm just drawing pictures---how do I know when the tree guess is actually accurate enough that substitution will not fight me?
+
+\subsection{Week 12}\label{sec:week12}
+
+\subsubsection*{Exercise (Indicator random variables)}
+
+\paragraph{5.2-3. Expected sum of $n$ fair dice.}
+Let $D_i$ be the value shown on the $i$th die, for $i=1,\ldots,n$, so the total is $S=\sum_{i=1}^n D_i$.
+For each $i$ and each face $k\in\{1,\ldots,6\}$, define the indicator
+\[
+I_{i,k}=
+\begin{cases}
+1 & \text{if die $i$ shows $k$,}\\
+0 & \text{otherwise.}
+\end{cases}
+\]
+Then $D_i=\sum_{k=1}^6 k\,I_{i,k}$. For a fair die, $\Pr(I_{i,k}=1)=1/6$, so by linearity of expectation,
+\[
+\mathbb{E}[D_i]=\sum_{k=1}^6 k\,\mathbb{E}[I_{i,k}]
+=\sum_{k=1}^6 k\cdot\frac{1}{6}
+=\frac{1+2+3+4+5+6}{6}
+=\frac{7}{2}.
+\]
+Again by linearity,
+\[
+\mathbb{E}[S]=\sum_{i=1}^n \mathbb{E}[D_i]=n\cdot\frac{7}{2}=\frac{7n}{2}.
+\]
+
+\paragraph{5.2-4. Hat-check problem.}
+Number the customers $1,\ldots,n$ and suppose the hats are returned according to a uniformly random permutation of the $n$ hats (each of the $n!$ orders equally likely).
+For $i=1,\ldots,n$, let
+\[
+X_i=
+\begin{cases}
+1 & \text{if customer $i$ receives their own hat,}\\
+0 & \text{otherwise.}
+\end{cases}
+\]
+Then $X=\sum_{i=1}^n X_i$ is the number of customers who get their own hat.
+Fix $i$. In a random permutation, customer $i$'s hat is equally likely to appear in any of the $n$ positions, so $\Pr(X_i=1)=1/n$ and $\mathbb{E}[X_i]=1/n$.
+By linearity of expectation (which holds even though the $X_i$ are not independent),
+\[
+\mathbb{E}[X]=\sum_{i=1}^n \mathbb{E}[X_i]=\sum_{i=1}^n \frac{1}{n}=1.
+\]
+So the expected number of fixed points in a random permutation is $1$, independent of $n$.
+
+\subsubsection*{Question}
+Linearity of expectation feels almost too easy here---do I ever have to worry about independence when I sum indicators like in the hat problem?
 
 \section{Synthesis}
 
