@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {2}Week by Week}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Week 1}{2}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Notes}{2}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Homework}{2}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Exploration}{3}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.4}Questions}{3}{subsubsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.2}Week 2}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}\ldots }{3}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Synthesis}{3}{section.3}%
+\contentsline {section}{\numberline {4}Evidence of Participation}{4}{section.4}%
+\contentsline {section}{\numberline {5}Conclusion}{4}{section.5}%
