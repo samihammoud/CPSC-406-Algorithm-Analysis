@@ -1260,14 +1260,57 @@ So the expected number of fixed points in a random permutation is $1$, independe
 \subsubsection*{Question}
 do I ever have to worry about independence when I sum indicators like in the hat problem?
 
-\section{Synthesis}
+\section{Synthesis}\label{synthesis}
+
+Algorithm analysis spans complexity bounds, proof techniques, and models of computation. In this synthesis I focus on two threads that shaped my learning most: \emph{mathematical induction} as a reusable proof skill, and \emph{finite automata and Turing machines} as concrete mental models for sequential reasoning. Together they connect the formal work in Sections~\ref{homework}--\ref{sec:week12} to how I approach coding interviews and LeetCode-style problems when preparing for software engineering roles.
+
+\subsection{Induction as a Skill Drill}\label{sec:synth-induction}
+
+Among the proof methods in the course, induction was the one I enjoyed learning the most. At first it felt like a ritual (base case, inductive hypothesis, inductive step), but repeated use turned it into a dependable drill. In Week~2 I used induction on string length to show that a DFA state $q$ with $\delta(q,a)=q$ for all $a$ satisfies $\delta^*(q,w)=q$ for every $w$ (Section~\ref{sec:week2}). The structure was simple: the empty string is the base case, and extending $w$ by one symbol applies the hypothesis plus the self-loop property. Later, induction on $n$ for recurrence relations (Weeks~10--11) required more algebraic care---choosing constants, strong versus weak induction, and matching lower and upper bounds---but the \emph{logic} was the same: prove a statement for a parameter that grows step by step \cite{clrs}.
+
+What I value about induction in this context is that it forces explicit invariants. You cannot hand-wave that ``it works for all $n$''; you must say \emph{what} is true at each size and \emph{why} the next size inherits it. That habit transfers directly to algorithm analysis: loop invariants, recursion depth, and amortized counters are all, in spirit, inductive arguments about the state of a computation after $k$ steps. I still find choosing inductive hypotheses for recurrences difficult (as I noted in Week~11), but the course made the method feel less mysterious and more like a skill I can practice deliberately.
+
+\subsection{Automata and Turing Machines: Models, Not Just Diagrams}\label{sec:synth-automata}
+
+DFAs, NFAs, and Turing machines were among the most distinctive and fun topics in the course. Designing automata (Week~1) and combining them via product constructions (Week~2) trained me to name states by \emph{what the machine remembers} about the input so far---parity of symbols, last characters seen, or membership in sub-languages. Determinization and minimization (Week~3) showed that different diagrams can encode the same behavior, which sharpened my sense of when two procedures are ``really'' the same algorithm up to renaming.
+
+Turing machines extended that picture from recognition to \emph{computation}: reading a tape, rewriting symbols, and halting with an output (Week~6). Writing TMs for languages such as $\{10^n\}$ and for bit-swapping made the model feel less abstract and more like a very low-level programming language with a single head and a fixed transition table. The decidability material (Weeks~6--7) added an important limit: some questions cannot be answered by any algorithm that always halts \cite{sipser}. That is not pessimism about engineering; it is a map of where exhaustive search, simulation, and proof techniques apply---and where they cannot.
+
+\subsection{Sequential Thinking and Interview Practice}\label{sec:synth-practice}
+
+The link to LeetCode and technical interviews is not that every problem is a DFA, but that many solutions are \emph{state machines in disguise}. Two pointers, sliding windows, and finite-phase parsers all ask: ``Given what I have read so far, which case am I in, and which transitions are legal on the next character or element?'' When I trace a DFA on paper (as in Week~1's tables), I am practicing the same discipline as when I trace a while-loop on a sample input: maintain a small summary of the past, update it in constant time per step, and know the accepting condition.
+
+Similarly, understanding $\Theta$, $\Theta(n \log n)$, and undecidability (Week~7) shapes \emph{which} interview strategies are worth pursuing. Bounded simulation (decidable ``halt in $k$ steps'') is like testing a TM on a budget; the halting problem reminds me that some meta-questions (``will this arbitrary program ever finish?'') have no general decision procedure. In practice that pushes me toward clear termination arguments, small counterexamples, and complexity-aware choices rather than blind optimism.
+
+\subsection{Integration}\label{sec:synth-integration}
+
+Induction supplies the proof backbone; automata and TMs supply the operational picture of computation as a sequence of discrete steps with memory. Complexity analysis and the master method (Weeks~10--11) then quantify cost once the procedure is fixed. For me, the synthesis is that algorithm analysis is not only Big-$O$ notation but a way to \emph{think in steps}: justify each step (induction), name the memory of the process (states), and know when the problem itself forbids a universal algorithm (undecidability). That mindset is what I will carry into coursework, projects, and interview preparation beyond this term.
 
 \section{Evidence of Participation}
 
 \section{Conclusion}\label{conclusion}
 
+Stepping back from the weekly exercises, CPSC-406 sits in the wider world of software engineering as the layer \emph{under} frameworks and languages: it explains why some designs scale, why some bugs are fundamental rather than implementation mistakes, and why certain verification questions are hopeless in full generality. Production code rarely cites the pumping lemma, but the same ideas appear when we reason about parsers, protocol state machines, timeouts, and whether a test suite can ever finish checking arbitrary user scripts.
+
+What I found most interesting and useful aligns with the synthesis in Section~\ref{synthesis}: induction proofs that made correctness arguments feel trainable, and automata/Turing-machine models that made sequential processes tangible. The recurrence and master-method work connected those models to measurable cost, which is the bridge to performance engineering. If I were to suggest improvements for future offerings, I would welcome one or two guided ``induction clinic'' sessions early on (common pitfalls with strings versus numbers), and a short capstone exercise that maps a familiar LeetCode pattern explicitly to a three-state DFA or a two-phase invariant---not to reduce interviews to theory, but to make the transfer from class to practice deliberate.
+
+Overall, the course strengthened how I read algorithms: not only \emph{what} they do, but \emph{what must remain true} after each step and \emph{what cannot} be decided automatically. That perspective is durable in a field where tools and languages change quickly but the limits of computation do not.
+
 \begin{thebibliography}{99}
-\bibitem[BLA]{bla} Author, \href{https://en.wikipedia.org/wiki/LaTeX}{Title}, Publisher, Year.
+\bibitem[CLRS]{clrs}
+T.\,H. Cormen, C.\,E. Leiserson, R.\,L. Rivest, and C.\,Stein,
+\emph{Introduction to Algorithms}, 4th ed.
+MIT Press, 2022.
+
+\bibitem[Sip13]{sipser}
+M. Sipser,
+\emph{Introduction to the Theory of Computation}, 3rd ed.
+Cengage Learning, 2013.
+
+\bibitem[Kur23]{kurz}
+A. Kurz,
+\href{https://github.com/alexhkurz/algorithm-analysis-2023}{Algorithm Analysis Course Materials},
+Chapman University, 2023.
 \end{thebibliography}
 
 \end{document}
